@@ -2,13 +2,13 @@
 import express from 'express';
 const app = express();
 import userRouter from './controllers/users.js';
-import cors from 'cors';
 import { fileURLToPath, URL } from 'url';
 
 const IS_PROD = process.env.PORT ? true : false;
 if (!IS_PROD) {
-
-    app.use(cors());
+    import('cors')
+        .then( (cors_module) => app.use(cors_module.default()))
+        .catch( err => console.log(err));
 }
 app.use(express.json());
 // Serve only the static files form the dist directory
