@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'theme-colors';
+
+.body {
+
+    display: block;
+    min-height: 90vh;
+    height: 90vh;
+
+}
+
+
+.btn {
+    background-color: $theme-light;    
+    color: $theme-dark-accent;
+    border: .15rem $theme-dark-shade solid;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    margin: .1rem;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: $theme-light-accent;
+    color: $theme-dark-shade;
+    border: .15rem $theme-dark-accent solid;
+}
+
+.btn-bad {
+    background-color: $theme-danger;
+    color: $theme-dark-shade;
+    border: .15rem $theme-dark-shade solid;
+}
+
+.btn-bad:hover {
+    background-color: $theme-danger-lighter;
+    color: $theme-dark-shade;
+    border: .15rem $theme-dark-accent solid;
+}
+
+
+.text-primary {
+    color: $theme-primary;
+}
+
+* {
+    color: $theme-dark-shade;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
