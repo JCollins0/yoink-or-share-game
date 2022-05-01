@@ -3,6 +3,7 @@ import express from 'express';
 const app = express();
 import userRouter from './controllers/users.js';
 import { fileURLToPath, URL } from 'url';
+import { createServer } from "http";
 import { Server } from "socket.io";
 import { createChatNamespace } from './sockets/sockets.js';
 
@@ -35,11 +36,13 @@ function loadRoutes() {
     });
 
 
+    const httpServer = createServer(app);
     // websockets 
-    const io = new Server({
+    const io = new Server(httpServer,{
+        
         serveClient: false,
         cors: {
-            origin: ["http://localhost:4200", "http://localhost:8080", "https://yoink-or-share.herokuapp.com"]
+            origin: ["http://localhost:4200", "http://localhost:8080"]
         }
     });
 
@@ -53,10 +56,10 @@ function loadRoutes() {
         });
     });
 
-    io.listen(process.env.WEBSOCKET_PORT || 3000);
+    //io.listen(process.env.WEBSOCKET_PORT || 3000);
 
 
     // Start the app by listening on the default Heroku port
-    app.listen(process.env.PORT || 8080);
+    httpServer.listen(process.env.PORT || 8080);
     console.log("App is up and running")
 }
