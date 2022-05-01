@@ -16,6 +16,8 @@ import { NavHeaderComponent } from './components/nav-header/nav-header.component
 import { NavFooterComponent } from './components/nav-footer/nav-footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { TextInputComponent } from './components/shared/text-input/text-input.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { environment } from 'src/environments/environment';
     PageNotFoundComponent,
     HomeComponent,
     NavHeaderComponent,
-    NavFooterComponent
+    NavFooterComponent,
+    TextInputComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

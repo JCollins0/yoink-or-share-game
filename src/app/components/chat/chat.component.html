@@ -1,0 +1,24 @@
+<div class="vertical chat-window">
+    <app-text-input 
+        label="Chat history" 
+        type="area" 
+        [id]="'chat-window'" 
+        [disabled]="true"  
+        [value]="chatHistory"
+        class="vertical">
+    </app-text-input>
+    <form [formGroup]="chatFormGroup" class="send-chat-form">
+        <app-text-input 
+            label="Chat" 
+            [id]="'chatinput'" 
+            type="text" 
+            formControlName="chatinput" 
+            class="horizontal">
+        </app-text-input>
+        <button 
+            id="send-chat-btn" 
+            type="submit" 
+            (click)="sendChatMessage()" 
+            [disabled]="!chatFormGroup.valid">Send</button>
+    </form>
+</div>

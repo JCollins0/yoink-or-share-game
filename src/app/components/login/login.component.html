@@ -18,18 +18,8 @@
                 <div *ngIf="errorMsg" class='error-text'>{{errorMsg}}</div>
                 <div *ngFor="let formField of fp" class='form-field'>
                     <div class="form-row">
-                        <label for="{{formField.id}}" class='form-field-label'>{{formField.label}}</label>
-                        <div class = 'form-input'>
-                            <input 
-                                type="{{formField.type}}" 
-                                id="{{formField.id}}"
-                                name="{{formField.id}}" 
-                                required="{{formField.required}}" 
-                                formControlName="{{formField.id}}" 
-                                autocomplete="{{formField.autocomplete ? formField.autocomplete : 'none'}}"
-                                class = 'form-input-text'
-                            >
-                        </div>
+                        <app-text-input [formControlName]="formField.id" [label]="formField.label" 
+                            [id]="formField.id" [type]="formField.type" [autocomplete]="formField.autocomplete"></app-text-input>
                     </div>
                     <div class="form-row">
                         <ng-container *ngIf="fg.get(formField.id) as fc">
@@ -43,7 +33,7 @@
                 </div>
                 <div class='submit-container'>
                     <div class='button-wrapper'>
-                        <input type="submit" [value]="isNewUserView ? 'Sign Up' : 'Sign In'" [disabled]="!fg.valid" class='submit-button button btn'>
+                        <button type="submit" [disabled]="!fg.valid" class='submit-button button btn'>{{isNewUserView ? 'Sign Up' : 'Sign In'}}</button>
                     </div>
                     <div class='button-wrapper'>
                         <button (click)="swapBetweenSignInAndSignUp()" class='button btn'>{{isNewUserView ? "I already have a user" : "Create New User"}}</button>

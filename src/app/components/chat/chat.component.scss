@@ -1,0 +1,46 @@
+.app-chat-component {
+
+    height: 100%;
+
+    .vertical {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .input-wrapper {
+            flex-direction: column;
+        }
+    }
+
+    .horizontal {
+        display: flex;
+        flex-direction: row;
+        padding-right: 10px;
+
+        .input-wrapper {
+            flex-direction: row;
+
+            .form-field-label {
+                padding:2px;
+            }
+        }
+    }
+
+    .input-wrapper {
+        display: flex;
+        height: 100%;
+    }
+
+    #chat-window {
+        height: 100%;
+    }
+
+    .chat-window {
+        width: 400px;
+        margin-left: auto;
+    }
+
+    .send-chat-form {
+        display:flex;
+    }
+}

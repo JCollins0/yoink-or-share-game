@@ -68,6 +68,10 @@
                     
                     .button-wrapper{
                         padding: 0 5%;
+
+                        .btn {
+                            white-space: nowrap;
+                        }
                     }
                 }
             }

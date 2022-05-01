@@ -158,7 +158,7 @@ export class LoginComponent implements OnInit {
     this.store.select(selectUser).pipe(
       filter(user => !!user)
     ).subscribe(() =>{
-      this.router.navigate(['dashboard'])
+      this.router.navigate(['home'])
     })   
   }
 
