@@ -16,7 +16,7 @@ export class AppSocketService {
         this.socketMap = new Map();
         if(environment.production){
             this.url_prefix = '';
-            this.socket_url_prefix = 'http://localhost:3000';
+            this.socket_url_prefix = 'wss://yoink-or-share.herokuapp.com:3000';
         }else{
             this.url_prefix = 'http://localhost:8080';
             this.socket_url_prefix = 'http://localhost:3000';
