@@ -7,6 +7,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { createChatNamespace } from './sockets/sockets.js';
 
+const localized = false
 const IS_PROD = process.env.PORT ? true : false;
 if (!IS_PROD) {
     import('cors')
@@ -30,9 +31,20 @@ function loadRoutes() {
     );
 
     app.use('/api/user', userRouter);
-
     app.get('/*', function (req, res) {
-        res.sendFile(fileURLToPath(new URL('../dist/yoink-or-share/index.html', import.meta.url)));
+        const pathToFiles = ['../dist/yoink-or-share/']
+        if (localized){
+            const supportedLocales = ["en", "es"];
+            const defaultLocale = "en";
+            const matches = req.url.match(/^\/([a-z]{2}(?:-[A-Z]{2})?)\//);
+
+            // check if the requested url has a correct format '/locale' and matches any of the supportedLocales
+            const locale = (matches && supportedLocales.indexOf(matches[1]) !== -1) ? matches[1] : defaultLocale;
+            pathToFiles.push(`${locale}/`)
+        }
+        pathToFiles.push('index.html')
+        const finalFilesPath = pathToFiles.reduce( (prev, curr) => prev + curr);
+        res.sendFile(fileURLToPath(new URL(finalFilesPath, import.meta.url)));
     });
 
 

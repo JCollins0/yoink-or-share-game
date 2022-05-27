@@ -2,6 +2,10 @@
 
     height: 100%;
 
+    textarea {
+        resize: none;
+    }
+
     .vertical {
         display: flex;
         flex-direction: column;
@@ -35,12 +39,8 @@
         height: 100%;
     }
 
-    .chat-window {
-        width: 400px;
-        margin-left: auto;
-    }
-
     .send-chat-form {
         display:flex;
+        padding: 5px 0;
     }
 }

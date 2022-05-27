@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { TextInputComponent } from './components/shared/text-input/text-input.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { AppErrorService } from './service/app-error.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { ChatComponent } from './components/chat/chat.component';
     }),
     EffectsModule.forRoot([AppEffects])
   ],
-  providers: [AppService],
+  providers: [AppService, AppErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

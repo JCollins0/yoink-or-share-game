@@ -1,20 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, Form, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LoginAction, SignUpAction } from 'src/app/actions/app.actions';
-import { FormModel, FormModelParameters } from 'src/app/models/common';
-import { getLoginError, selectUser, State } from 'src/app/reducers';
+import { LoginConstants } from 'src/app/constants/app-constants';
+import { CommonError, FormModel} from 'src/app/models/common';
+import { selectLoginError, selectUser, State } from 'src/app/reducers';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-  constructor(private store : Store<State>, private fb : FormBuilder,private router: Router) { }
+  constructor(private store : Store<State>, private fb : FormBuilder,private router: Router) { 
+    this.loginError$ = this.store.select(selectLoginError).pipe(
+      filter(err=>!!err)
+    )
+    this.user$ = this.store.select(selectUser).pipe(
+      filter(user => !!user)
+    ).subscribe(() =>{
+      this.router.navigate(['home'])
+    })   
+  }
 
   public signInForm: FormGroup = this.fb.group({});
   public signUpForm: FormGroup = this.fb.group({});
@@ -24,65 +35,66 @@ export class LoginComponent implements OnInit {
 
   public isNewUserView : boolean = false;
 
-  public errorMsg : string | null = null;
+  public loginError$: Observable<CommonError | null>;
+  private user$: Subscription;
 
   ngOnInit(): void {
     this.formParametersSignUp = [
       {
         id : 'username',
         type: 'text',
-        label : 'Username: ',
+        label : LoginConstants.usernameLabel,
         autocomplete : 'username',
         validators : [
           {
             key : 'required',
             func : Validators.required,
-            msg : "Username is required" 
+            msg : LoginConstants.usernameRequired 
           },
           {
             key : 'minlength',
             func : Validators.minLength(4),
-            msg : "Username must be at least 4 characters" 
+            msg : LoginConstants.usernameMinLength
           },
           {
             key : 'maxlength',
             func : Validators.maxLength(20),
-            msg : "Username can be at most 20 characters" 
+            msg : LoginConstants.usernameMaxLength
           }
         ]
       },
       {
         id : 'password',
         type: 'password',
-        label : 'Password: ',
+        label : LoginConstants.passwordLabel,
         autocomplete : 'new-password',
         validators : [
           {
             key : 'required',
             func : Validators.required,
-            msg : "Password is required" 
+            msg : LoginConstants.passwordRequired 
           },
           {
             key : 'minlength',
             func : Validators.minLength(8),
-            msg : "Password must be at least 8 characters" 
+            msg : LoginConstants.passwordMinLength 
           },
           {
             key : 'maxlength',
             func : Validators.maxLength(20),
-            msg : "Password can be at most 20 characters" 
+            msg : LoginConstants.passwordMaxLength
           }
         ]
       },
       {
         id : 'confirmPassword',
         type: 'password',
-        label : 'Confirm Password: ',
+        label : LoginConstants.confirmPasswordLabel,
         validators : [
           {
             key : 'matchfield',
             func : this.fieldsMustBeSame('password',this.signUpForm),
-            msg : "Passwords must match"
+            msg : LoginConstants.passwordMustMatch
           }
         ]
       }
@@ -92,46 +104,46 @@ export class LoginComponent implements OnInit {
       {
         id : 'username',
         type: 'text',
-        label : 'Username: ',
+        label : LoginConstants.usernameLabel,
         autocomplete : 'username',
         validators : [
           {
             key : 'required',
             func : Validators.required,
-            msg : "Username is required" 
+            msg : LoginConstants.usernameRequired 
           },
           {
             key : 'minlength',
             func : Validators.minLength(4),
-            msg : "Username must be at least 4 characters" 
+            msg : LoginConstants.usernameMinLength
           },
           {
             key : 'maxlength',
             func : Validators.maxLength(20),
-            msg : "Username can be at most 20 characters" 
+            msg : LoginConstants.usernameMaxLength
           }
         ]
       },
       {
         id : 'password',
         type: 'password',
-        label : 'Password: ',
-        autocomplete : 'current-password',
+        label : LoginConstants.passwordLabel,
+        autocomplete : 'new-password',
         validators : [
           {
             key : 'required',
             func : Validators.required,
-            msg : "Password is required" 
+            msg : LoginConstants.passwordRequired 
           },
           {
             key : 'minlength',
             func : Validators.minLength(8),
-            msg : "Password must be at least 8 characters" 
+            msg : LoginConstants.passwordMinLength 
           },
           {
             key : 'maxlength',
             func : Validators.maxLength(20),
-            msg : "Password can be at most 20 characters" 
+            msg : LoginConstants.passwordMaxLength
           }
         ]
       }
@@ -143,23 +155,8 @@ export class LoginComponent implements OnInit {
 
     this.formParametersSignIn.forEach(param => {
       this.signInForm.addControl(param.id, this.fb.control("", param.validators.map( elem => elem.func)));
-    })
-
-    this.store.select(getLoginError).pipe(
-        filter(err=>!!err)
-      ).subscribe(err => {
-      if(err){
-        console.log(err)
-        this.errorMsg = err.error;
-        setTimeout( ()=> this.errorMsg = null, 5000);
-      }
-    })
-
-    this.store.select(selectUser).pipe(
-      filter(user => !!user)
-    ).subscribe(() =>{
-      this.router.navigate(['home'])
     })   
+    
   }
 
   public swapBetweenSignInAndSignUp(){
@@ -175,7 +172,6 @@ export class LoginComponent implements OnInit {
         password: this.signInForm.get('password')?.value
       }
     }
-    this.store.dispatch(LoginAction(payload))
     this.store.dispatch(LoginAction(payload))
   }
 
@@ -197,5 +193,9 @@ export class LoginComponent implements OnInit {
       const matchfield = otherControl.value !== control.value;
       return matchfield ? {matchfield: {value: control.value}} : null;
     };
+  }
+
+  ngOnDestroy(): void {
+    this.user$.unsubscribe
   }
 }

@@ -31,3 +31,11 @@ export const SignUpFailure = createAction(
     '[USER] SignUp Failure',
     props<{ error: CommonError }>()
 );
+
+export const LogoutAction = createAction(
+    '[USER] Logout'
+)
+
+export const LogoutSuccess = createAction(
+    '[USER] Logout Success'
+)

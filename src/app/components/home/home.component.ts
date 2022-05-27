@@ -31,12 +31,4 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
-
-  navAway(): void {
-    this.router.navigate(['/dashboard'])
-  }
-
-  sendTest(): void {
-    
-  }
 }

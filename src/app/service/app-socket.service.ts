@@ -3,6 +3,7 @@ import { io, Socket } from "socket.io-client"
 import { environment } from "src/environments/environment";
 import {ServerToClientEvents, ClientToServerEvents} from "../models/socket";
 import { ClientProtocol, ServerProtocol } from "../constants/protocols";
+import { SocketConstants } from "../constants/app-constants";
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +26,7 @@ export class AppSocketService {
 
     createClient(namespace: string){
         if(this.socketMap.get(namespace)){
-            throw Error("Socket with the url has already been established")
+            throw Error(SocketConstants.socketConnectionEstablishedError)
         }
         this.socketMap.set(namespace, io(this.socket_url_prefix + namespace)) 
     }

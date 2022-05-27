@@ -1,10 +1,12 @@
 .header {
     display: block;
-    height: 4vh;
+    height: fit-content;
+    min-height: 4vh;
 }
 
 .footer {
     display: block;
-    height: 4vh;
+    height: fit-content;
+    min-height: 4vh;
 }
 

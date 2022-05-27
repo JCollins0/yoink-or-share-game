@@ -4,6 +4,10 @@
   "newProjectRoot": "projects",
   "projects": {
     "yoink-or-share": {
+      "i18n": {
+        "sourceLocale":"en",
+        "locales": {"es": "src/locales/messages.es.json"}
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {

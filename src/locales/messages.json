@@ -1,0 +1,27 @@
+{
+  "locale": "en",
+  "translations": {
+    "chat-history-label": "Chat history",
+    "chat-input-label": "Chat",
+    "send-chat-button": "Send",
+    "page-not-found": "page-not-found works!",
+    "home-title": "Home",
+    "login-title": "Login",
+    "page-not-found-title": "Page Not Found",
+    "username-label": "Username",
+    "username-required": "Username is required",
+    "username-min-length": "Username must be at least 4 characters",
+    "username-max-length": "Username can be at most 20 characters",
+    "password-label": "Password",
+    "password-required": "Password is required",
+    "password-min-length": "Password must be at least 8 characters",
+    "password-max-length": "Password can be at most 20 characters",
+    "confirm-password-label": "Confirm Password",
+    "password-must-match": "Passwords must match",
+    "socekt-arleady-established-error": "Socket with the url has already been established",
+    "REQUIRED_FIELDS_NULL": "One or more required fields was null",
+    "USER_ALREADY_EXISTS": "User already exists",
+    "WRONG_USERNAME_PASSWORD": "Wrong username or password",
+    "unknown-error-code": "Error Code: {$PH}"
+  }
+}

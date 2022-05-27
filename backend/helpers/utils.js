@@ -1,5 +1,5 @@
-export function makeError(msg){
-    return { error : msg }
+export function makeError(errorCode){
+    return { errorCode : errorCode }
 }
 
 export function validateFields( ...fields){

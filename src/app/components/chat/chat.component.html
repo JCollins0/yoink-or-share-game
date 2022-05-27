@@ -1,5 +1,5 @@
-<div class="vertical chat-window">
-    <app-text-input 
+<div class="vertical">
+    <app-text-input i18n-label="@@chat-history-label"
         label="Chat history" 
         type="area" 
         [id]="'chat-window'" 
@@ -8,7 +8,7 @@
         class="vertical">
     </app-text-input>
     <form [formGroup]="chatFormGroup" class="send-chat-form">
-        <app-text-input 
+        <app-text-input i18n-label="@@chat-input-label" 
             label="Chat" 
             [id]="'chatinput'" 
             type="text" 
@@ -19,6 +19,6 @@
             id="send-chat-btn" 
             type="submit" 
             (click)="sendChatMessage()" 
-            [disabled]="!chatFormGroup.valid">Send</button>
+            [disabled]="!chatFormGroup.valid" i18n="@@send-chat-button">Send</button>
     </form>
 </div>

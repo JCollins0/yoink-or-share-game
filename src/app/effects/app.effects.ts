@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
-import { LoginAction, LoginFailure, LoginSuccess, SignUpAction, SignUpSuccess } from '../actions/app.actions';
+import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
+import { LoginAction, LoginFailure, LoginSuccess, LogoutAction, LogoutSuccess, SignUpAction, SignUpSuccess } from '../actions/app.actions';
+import { AppErrorService } from '../service/app-error.service';
 import { AppService } from '../service/app.service';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private appService : AppService) {}
+  constructor(private actions$: Actions,
+    private appService : AppService,
+    private router: Router,
+    private errorService: AppErrorService) {}
 
   /*
   Users
@@ -20,7 +25,8 @@ export class AppEffects {
           map(user => LoginSuccess({ user })),
           catchError(resp => 
             {
-              return of(LoginFailure({ error : resp.error }))
+              console.log(resp)
+              return of(LoginFailure({ error : this.errorService.convertError(resp.error.errorCode) }))
             }
           )
         )
@@ -36,11 +42,21 @@ export class AppEffects {
           map(user => SignUpSuccess({ user })),
           catchError(resp => 
             {
-              return of(LoginFailure({ error : resp.error }))
+              return of(LoginFailure({ error : this.errorService.convertError(resp.error.errorCode) }))
             }
           )
         )
       )
+    )
+  });
+
+  logout$ = createEffect(()=>{
+    return this.actions$.pipe(
+      ofType(LogoutAction),
+      switchMap(() => of(LogoutSuccess())),
+      tap(() => {
+        this.router.navigate(["/login"])
+      })
     )
   });
 }
