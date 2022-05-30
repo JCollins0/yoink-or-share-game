@@ -58,7 +58,7 @@
     "@typescript-eslint/parser": "4.28.2",
     "cors": "^2.8.5",
     "eslint": "^7.26.0",
-    "jasmine-core": "~3.7.0",
+    "jasmine-core": "~3.8.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
@@ -69,6 +69,6 @@
   },
   "engines": {
     "node": "14.17.1",
-    "npm": ">=6"
+    "npm": "~7.5.6"
   }
 }
