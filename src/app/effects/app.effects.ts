@@ -3,60 +3,71 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
-import { LoginAction, LoginFailure, LoginSuccess, LogoutAction, LogoutSuccess, SignUpAction, SignUpSuccess } from '../actions/app.actions';
+import {
+  LoginAction,
+  LoginFailure,
+  LoginSuccess,
+  LogoutAction,
+  LogoutSuccess,
+  SignUpAction,
+  SignUpSuccess,
+} from '../actions/app.actions';
 import { AppErrorService } from '../service/app-error.service';
 import { AppService } from '../service/app.service';
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions,
-    private appService : AppService,
+  constructor(
+    private actions$: Actions,
+    private appService: AppService,
     private router: Router,
-    private errorService: AppErrorService) {}
+    private errorService: AppErrorService
+  ) {}
 
-  /*
-  Users
-  */
   login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LoginAction),
-      exhaustMap(action =>
+      exhaustMap((action) =>
         this.appService.login(action.credentials).pipe(
-          map(user => LoginSuccess({ user })),
-          catchError(resp => 
-            {
-              console.log(resp)
-              return of(LoginFailure({ error : this.errorService.convertError(resp.error.errorCode) }))
-            }
-          )
+          map((user) => LoginSuccess({ user })),
+          catchError((resp) => {
+            console.log(resp);
+            return of(
+              LoginFailure({
+                error: this.errorService.convertError(resp.error.errorCode),
+              })
+            );
+          })
         )
       )
-    )
+    );
   });
 
   signup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(SignUpAction),
-      exhaustMap(action =>
+      exhaustMap((action) =>
         this.appService.signUp(action.credentials).pipe(
-          map(user => SignUpSuccess({ user })),
-          catchError(resp => 
-            {
-              return of(LoginFailure({ error : this.errorService.convertError(resp.error.errorCode) }))
-            }
-          )
+          map((user) => SignUpSuccess({ user })),
+          catchError((resp) => {
+            return of(
+              LoginFailure({
+                error: this.errorService.convertError(resp.error.errorCode),
+              })
+            );
+          })
         )
       )
-    )
+    );
   });
 
-  logout$ = createEffect(()=>{
+  logout$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LogoutAction),
       switchMap(() => of(LogoutSuccess())),
       tap(() => {
-        this.router.navigate(["/login"])
+        this.router.navigate(['/login']);
       })
-    )
+    );
   });
 }

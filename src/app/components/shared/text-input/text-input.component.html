@@ -1,26 +1,29 @@
 <div class="input-wrapper">
-    <ng-container [ngSwitch]="type">
-        <ng-container *ngSwitchCase="'area'">
-            <label [for]="id" class='form-field-label'>{{label}}</label>
-            <textarea 
-                [id]="id"
-                [name]="id" 
-                [value] = "value"
-                [disabled] = "disabled"
-                (input) = "updateText($event)"
-                (blur) = "onTouched()"> </textarea>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-            <label [for]="id" class='form-field-label'>{{label}}</label>
-            <input 
-                [id]="id"
-                [autocomplete] = "autocomplete"
-                [type]="type"
-                [name]="id" 
-                [value] = "value"
-                [disabled] = "disabled"
-                (input) = "updateText($event)"
-                (blur) = "onTouched()">
-        </ng-container>
+  <ng-container [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'area'">
+      <label [for]="id" class="form-field-label">{{ label }}</label>
+      <textarea
+        [id]="id"
+        [name]="id"
+        [value]="value"
+        [disabled]="disabled"
+        (input)="updateText($event)"
+        (blur)="onTouched()"
+      >
+      </textarea>
     </ng-container>
+    <ng-container *ngSwitchDefault>
+      <label [for]="id" class="form-field-label">{{ label }}</label>
+      <input
+        [id]="id"
+        [autocomplete]="autocomplete"
+        [type]="type"
+        [name]="id"
+        [value]="value"
+        [disabled]="disabled"
+        (input)="updateText($event)"
+        (blur)="onTouched()"
+      />
+    </ng-container>
+  </ng-container>
 </div>

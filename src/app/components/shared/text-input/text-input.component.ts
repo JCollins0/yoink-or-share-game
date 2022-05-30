@@ -8,28 +8,27 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      multi:true,
-      useExisting: forwardRef( () => TextInputComponent)
-    }
-  ]
+      multi: true,
+      useExisting: forwardRef(() => TextInputComponent),
+    },
+  ],
 })
 export class TextInputComponent implements OnInit, ControlValueAccessor {
-
   @Input() label?: string;
   @Input() id?: string;
-  @Input() type?: "text" | "password" | "area";
-  @Input() autocomplete?: string = "";
-  @Input("disabled") _disabled: boolean = false;
-  @Input() value: string = "";
-  onChange = (text: string) => {}
+  @Input() type?: 'text' | 'password' | 'area';
+  @Input() autocomplete?: string = '';
+  @Input() disable: boolean = false;
+  @Input() value: string = '';
+  onChange = (text: string) => {};
   touched: boolean = false;
-  onTouched = () => {}
+  onTouched = () => {};
   disabled: boolean = false;
 
-  constructor() { }
- 
+  constructor() {}
+
   ngOnInit(): void {
-    this.setDisabledState(this._disabled)
+    this.setDisabledState(this.disable);
   }
 
   updateText($event: Event): void {
@@ -39,13 +38,13 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   }
 
   markAsTouched(): void {
-    if (!this.touched){
+    if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
 
-  public setDisabledState(disabled: boolean): void{
+  public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
 
@@ -58,6 +57,4 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   public registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-
-
 }

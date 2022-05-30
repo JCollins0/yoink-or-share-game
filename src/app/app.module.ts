@@ -8,7 +8,7 @@ import { reducers, metaReducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './effects/app.effects';
 import { AppService } from './service/app.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { HomeComponent } from './components/home/home.component';
@@ -19,6 +19,9 @@ import { environment } from 'src/environments/environment';
 import { TextInputComponent } from './components/shared/text-input/text-input.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { AppErrorService } from './service/app-error.service';
+import { AppButtonComponent } from './components/shared/app-button/app-button.component';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { SpinnerService } from './service/spinner.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { AppErrorService } from './service/app-error.service';
     NavHeaderComponent,
     NavFooterComponent,
     TextInputComponent,
-    ChatComponent
+    ChatComponent,
+    AppButtonComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,16 +41,21 @@ import { AppErrorService } from './service/app-error.service';
     HttpClientModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers, {
-      metaReducers
+      metaReducers,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
-    EffectsModule.forRoot([AppEffects])
+    EffectsModule.forRoot([AppEffects]),
   ],
-  providers: [AppService, AppErrorService],
-  bootstrap: [AppComponent]
+  providers: [
+    AppService,
+    AppErrorService,
+    SpinnerService,
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

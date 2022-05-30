@@ -1,80 +1,77 @@
 @import '../../../theme-colors.scss';
 
-.login-wrapper{
+.login-wrapper {
+  margin: auto;
+  display: flex;
+  background-color: $theme-light;
+
+  .view-wrapper {
     margin: auto;
-    display: flex;
-    background-color: $theme-light;
+    width: 80%;
 
-    .view-wrapper{ 
-        margin: auto;
-        width: 80%;
+    .form-wrapper {
+      width: fit-content;
+      margin: auto;
+      display: block;
 
-        .form-wrapper {
-            width:fit-content;
-            margin:auto;
-            display: block;
+      .form-container {
+        display: block;
+        justify-content: center;
+        align-items: center;
+        border: 0.2rem dashed $theme-primary;
+        padding: 4%;
 
-            .form-container{
-
-                display: block;
-                justify-content: center;
-                align-items: center;
-                border: .2rem dashed $theme-primary;
-                padding: 4%;
-
-                .error-text {
-                    color: $theme-danger;
-                }
-
-                .form-field{
-
-                    min-height:2.75rem;
-
-                    .form-field-label {
-                        padding: 2.5%;
-                    }
-
-                    .form-row {
-                     
-                        display: flex;
-                        justify-content: space-between;
-                        
-                        .form-input {
-                            display: inline-block;
-                            padding: 2% 0;
-    
-                            .form-input-text{
-                                width:95%;
-                            }
-                        }
-        
-                        .form-validation-container {
-                            display: inline-flex;                    
-                            padding-left: .5rem;
-        
-                            .form-validation-text {
-                                color: $theme-danger;
-                                text-shadow: 0px 0px 0px $theme-danger-darker;
-                                font-size: medium;
-                            }
-                        }
-                    }
-                }
-
-                .submit-container{
-                    padding: 3% 0;
-                    display: flex;
-                    justify-content: left;
-                    
-                    .button-wrapper{
-                        padding: 0 5%;
-
-                        .btn {
-                            white-space: nowrap;
-                        }
-                    }
-                }
-            }
+        .error-text {
+          color: $theme-danger;
         }
+
+        .form-field {
+          min-height: 2.75rem;
+
+          .form-field-label {
+            padding: 2.5%;
+          }
+
+          .form-row {
+            display: flex;
+            justify-content: space-between;
+
+            .form-input {
+              display: inline-block;
+              padding: 2% 0;
+
+              .form-input-text {
+                width: 95%;
+              }
+            }
+
+            .form-validation-container {
+              display: inline-flex;
+              padding-left: 0.5rem;
+
+              .form-validation-text {
+                color: $theme-danger;
+                text-shadow: 0px 0px 0px $theme-danger-darker;
+                font-size: medium;
+              }
+            }
+          }
+        }
+
+        .submit-container {
+          padding: 3% 0;
+          display: flex;
+          justify-content: left;
+
+          .button-wrapper {
+            padding: 0 5%;
+
+            .btn {
+              white-space: nowrap;
+            }
+          }
+        }
+      }
     }
+  }
 }

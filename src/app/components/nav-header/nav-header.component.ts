@@ -7,30 +7,24 @@ import { selectIsAuthenticated, State } from 'src/app/reducers';
 @Component({
   selector: 'app-nav-header',
   templateUrl: './nav-header.component.html',
-  styleUrls: ['./nav-header.component.scss']
+  styleUrls: ['./nav-header.component.scss'],
 })
-export class NavHeaderComponent implements OnInit, OnDestroy {
-
-  private authenticated$ : Subscription;
-  constructor(private store : Store<State>) {
-    this.authenticated$ = this.store.select(selectIsAuthenticated)
-      .subscribe(authenticated => {
-        this.authenticated = authenticated;
-        if(authenticated){
-          setTimeout( () => {
-            this.store.dispatch(LogoutAction())
-          }, 60000 * 5)
-        }
-      });
+export class NavHeaderComponent implements OnDestroy {
+  private authenticated$: Subscription;
+  constructor(private store: Store<State>) {
+    this.authenticated$ = this.store.select(selectIsAuthenticated).subscribe((authenticated) => {
+      this.authenticated = authenticated;
+      if (authenticated) {
+        setTimeout(() => {
+          this.store.dispatch(LogoutAction());
+        }, 60000 * 5);
+      }
+    });
   }
 
-  public authenticated : boolean = false;
-
-  ngOnInit(): void {
-  }
+  public authenticated: boolean = false;
 
   ngOnDestroy(): void {
     this.authenticated$.unsubscribe();
   }
-
 }

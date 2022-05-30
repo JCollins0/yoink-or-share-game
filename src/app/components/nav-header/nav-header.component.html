@@ -1,3 +1,6 @@
-<div class='nav-header'>
-    <div>Nav Header works! <button *ngIf="!authenticated" routerLink="/login">Login</button></div>
+<div class="nav-header">
+  <div>
+    Nav Header works!
+    <app-button *ngIf="!authenticated" routerLink="/login" [id]="'nav-header-login'">Login</app-button>
+  </div>
 </div>

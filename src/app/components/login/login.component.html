@@ -1,45 +1,63 @@
 <div class="login-wrapper body">
-    <div *ngIf="isNewUserView" class='view-wrapper'>
-        <ng-container 
-            [ngTemplateOutlet]="formFieldsTemplate"
-            [ngTemplateOutletContext]="{fg:signUpForm, fp:formParametersSignUp, submit: onSignUpSubmit.bind(this)}">
-        </ng-container>
-    </div>
-    <div *ngIf="!isNewUserView" class='view-wrapper'>
-        <ng-container 
-            [ngTemplateOutlet]="formFieldsTemplate"
-            [ngTemplateOutletContext]="{fg:signInForm, fp:formParametersSignIn, submit: onSignInSubmit.bind(this)}">
-        </ng-container>
-    </div>
-    
-    <ng-template #formFieldsTemplate let-fg='fg' let-fp='fp' let-submit='submit'>
-        <div class='form-wrapper'>
-            <form [formGroup]="fg" (ngSubmit)="submit()" class="form-container">
-                <div *ngIf="loginError$ | async as error" class='error-text'>{{error.error}}</div>
-                <div *ngFor="let formField of fp" class='form-field'>
-                    <div class="form-row">
-                        <app-text-input [formControlName]="formField.id" [label]="formField.label" 
-                            [id]="formField.id" [type]="formField.type" [autocomplete]="formField.autocomplete"></app-text-input>
-                    </div>
-                    <div class="form-row">
-                        <ng-container *ngIf="fg.get(formField.id) as fc">
-                            <div *ngIf="fc.invalid && (fc.dirty || fc.touched)" class='form-validation-container'>
-                                <div *ngFor="let validator of formField.validators">
-                                    <div *ngIf="fc.errors && fc.errors[validator.key]" class='form-validation-text'>*{{validator.msg}}</div>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </div>
+  <div *ngIf="isNewUserView" class="view-wrapper">
+    <ng-container
+      [ngTemplateOutlet]="formFieldsTemplate"
+      [ngTemplateOutletContext]="{ fg: signUpForm, fp: formParametersSignUp, submit: onSignUpSubmit.bind(this) }"
+    >
+    </ng-container>
+  </div>
+  <div *ngIf="!isNewUserView" class="view-wrapper">
+    <ng-container
+      [ngTemplateOutlet]="formFieldsTemplate"
+      [ngTemplateOutletContext]="{ fg: signInForm, fp: formParametersSignIn, submit: onSignInSubmit.bind(this) }"
+    >
+    </ng-container>
+  </div>
+
+  <ng-template #formFieldsTemplate let-fg="fg" let-fp="fp" let-submit="submit">
+    <div class="form-wrapper">
+      <form [formGroup]="fg" (ngSubmit)="submit()" class="form-container">
+        <div *ngIf="loginError$ | async as error" class="error-text">{{ error.error }}</div>
+        <div *ngFor="let formField of fp" class="form-field">
+          <div class="form-row">
+            <app-text-input
+              [formControlName]="formField.id"
+              [label]="formField.label"
+              [id]="formField.id"
+              [type]="formField.type"
+              [autocomplete]="formField.autocomplete"
+            ></app-text-input>
+          </div>
+          <div class="form-row">
+            <ng-container *ngIf="fg.get(formField.id) as fc">
+              <div *ngIf="fc.invalid && (fc.dirty || fc.touched)" class="form-validation-container">
+                <div *ngFor="let validator of formField.validators">
+                  <div *ngIf="fc.errors && fc.errors[validator.key]" class="form-validation-text">
+                    *{{ validator.msg }}
+                  </div>
                 </div>
-                <div class='submit-container'>
-                    <div class='button-wrapper'>
-                        <button type="submit" [disabled]="!fg.valid" class='submit-button button btn'>{{isNewUserView ? 'Sign Up' : 'Sign In'}}</button>
-                    </div>
-                    <div class='button-wrapper'>
-                        <button (click)="swapBetweenSignInAndSignUp()" class='button btn'>{{isNewUserView ? "I already have a user" : "Create New User"}}</button>
-                    </div>
-                </div>
-            </form>
+              </div>
+            </ng-container>
+          </div>
         </div>
-    </ng-template>
+        <div class="submit-container">
+          <div class="button-wrapper">
+            <app-button
+              [id]="'sign-up-in-button'"
+              [type]="'submit'"
+              [disabled]="!fg.valid"
+              [class]="'submit-button button btn'"
+            >
+              {{ isNewUserView ? 'Sign Up' : 'Sign In' }}
+            </app-button>
+          </div>
+          <div class="button-wrapper">
+            <app-button [id]="'switch-sign-in-view'" (click)="swapBetweenSignInAndSignUp()" [class]="'button btn'">
+              {{ isNewUserView ? 'I already have a user' : 'Create New User' }}
+            </app-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
 </div>

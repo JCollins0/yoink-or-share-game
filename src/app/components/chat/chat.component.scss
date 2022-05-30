@@ -1,46 +1,45 @@
 .app-chat-component {
+  height: 100%;
 
+  textarea {
+    resize: none;
+  }
+
+  .vertical {
+    display: flex;
+    flex-direction: column;
     height: 100%;
 
-    textarea {
-        resize: none;
+    .input-wrapper {
+      flex-direction: column;
     }
+  }
 
-    .vertical {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-
-        .input-wrapper {
-            flex-direction: column;
-        }
-    }
-
-    .horizontal {
-        display: flex;
-        flex-direction: row;
-        padding-right: 10px;
-
-        .input-wrapper {
-            flex-direction: row;
-
-            .form-field-label {
-                padding:2px;
-            }
-        }
-    }
+  .horizontal {
+    display: flex;
+    flex-direction: row;
+    padding-right: 10px;
 
     .input-wrapper {
-        display: flex;
-        height: 100%;
-    }
+      flex-direction: row;
 
-    #chat-window {
-        height: 100%;
+      .form-field-label {
+        padding: 2px;
+      }
     }
+  }
 
-    .send-chat-form {
-        display:flex;
-        padding: 5px 0;
-    }
+  .input-wrapper {
+    display: flex;
+    height: 100%;
+  }
+
+  #chat-window {
+    height: 100%;
+  }
+
+  .send-chat-form {
+    display: flex;
+    padding: 5px 0;
+  }
 }

@@ -7,28 +7,20 @@ import { selectIsAuthenticated, State } from 'src/app/reducers';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
-
-  constructor(
-    private router: Router,
-    private store: Store<State>,
-  ) { }
+export class HomeComponent implements OnInit {
+  constructor(private router: Router, private store: Store<State>) {}
 
   ngOnInit(): void {
-
-    this.store.select(selectIsAuthenticated)
+    this.store
+      .select(selectIsAuthenticated)
       .pipe(take(1))
-      .subscribe(authenticated => {
-        if(authenticated){
-          
-        }else{
-          this.router.navigate(['/login'])
+      .subscribe((authenticated) => {
+        if (authenticated) {
+        } else {
+          this.router.navigate(['/login']);
         }
-      })
-  }
-
-  ngOnDestroy(): void {
+      });
   }
 }
