@@ -22,6 +22,8 @@ import { AppErrorService } from './service/app-error.service';
 import { AppButtonComponent } from './components/shared/app-button/app-button.component';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { SpinnerService } from './service/spinner.service';
+import { PersistenceService } from './service/persistence.service';
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { SpinnerService } from './service/spinner.service';
     TextInputComponent,
     ChatComponent,
     AppButtonComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { SpinnerService } from './service/spinner.service';
     AppService,
     AppErrorService,
     SpinnerService,
+    PersistenceService,
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

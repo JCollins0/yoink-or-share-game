@@ -1,0 +1,10 @@
+@mixin router-content {
+  display: block;
+  min-height: 90vh;
+  height: 90vh;
+  position: relative;
+}
+
+@function hexToRGB($hex) {
+  @return red($hex), green($hex), blue($hex);
+}

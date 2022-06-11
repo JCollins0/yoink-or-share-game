@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SpinnerInterceptor } from './spinner.interceptor';
 
-describe('SpinnerInterceptorInterceptor', () => {
+describe('SpinnerInterceptor', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [SpinnerInterceptor],

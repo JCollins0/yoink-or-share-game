@@ -1,46 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'theme-colors';
+@import 'mixins';
 
-.body {
-  display: block;
-  min-height: 90vh;
-  height: 90vh;
+@media (prefers-color-scheme: light) {
+  .theme {
+    --theme-primary: #5100ff;
+    --theme-primary-lighter: #3f64ff;
+    --theme-secondary: #008c6e;
+    --theme-accent: #1f1926;
+    --text-color: #000000;
+    --btn-border-color: var(--text-color);
+    --btn-text-color: #ffffff;
+    --theme-bg-color: #ffffff;
+    --theme-bg-color-rgb: #{hexToRGB(#ffffff)};
+    --theme-text-disabled: #000000;
+    --theme-bg-disabled: #b1b1b1;
+    --theme-border-disabled: var(--theme-bg-disabled);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme {
+    --theme-bg-color: #232323;
+    --theme-bg-color-rgb: #{hexToRGB(#232323)};
+    --btn-text-color: #fffcfc;
+    --text-color: #ffffff;
+    --btn-border-color: var(--btn-text-color);
+    --theme-primary: #5100ff;
+    --theme-primary-lighter: #3f64ff;
+    --theme-secondary: #008c6e;
+    --theme-accent: #4b4453;
+    --theme-text-disabled: #000000;
+    --theme-bg-disabled: #b1b1b1;
+    --theme-border-disabled: #d7d7d7;
+  }
 }
 
 .btn {
-  background-color: $theme-light;
-  color: $theme-dark-accent;
-  border: 0.15rem $theme-dark-shade solid;
+  background-color: var(--theme-primary);
+  color: var(--btn-text-color);
+  border: 0.15rem var(--btn-border-color) solid;
   padding: 0.25rem 0.5rem;
   text-align: center;
   text-decoration: none;
   margin: 0.1rem;
   display: inline-block;
+  cursor: pointer;
 }
 
-.btn:hover {
-  background-color: $theme-light-accent;
-  color: $theme-dark-shade;
-  border: 0.15rem $theme-dark-accent solid;
+.btn:disabled {
+  color: var(--theme-text-disabled);
+  background-color: var(--theme-bg-disabled);
+  border: 0.15rem var(--theme-border-disabled) solid;
+  cursor: default;
 }
 
-.btn-bad {
-  background-color: $theme-danger;
-  color: $theme-dark-shade;
-  border: 0.15rem $theme-dark-shade solid;
-}
-
-.btn-bad:hover {
-  background-color: $theme-danger-lighter;
-  color: $theme-dark-shade;
-  border: 0.15rem $theme-dark-accent solid;
+.btn:hover:not(:disabled),
+.btn:focus:not(:disabled) {
+  background-color: var(--theme-primary-lighter);
+  color: var(--btn-text-color);
 }
 
 .text-primary {
-  color: $theme-primary;
+  color: var(--text-color);
 }
 
 * {
-  color: $theme-dark-shade;
+  color: var(--text-color);
+  background-color: var(--theme-bg-color);
   font-family: Arial, Helvetica, sans-serif;
 }

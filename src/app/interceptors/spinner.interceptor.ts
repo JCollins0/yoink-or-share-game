@@ -11,9 +11,17 @@ export class SpinnerInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.context.get(BYPASS_SPINNER_HTTP_CONTEXT)) {
+      console.log('Skipping spinner', request);
       return next.handle(request);
     }
 
-    return next.handle(request).pipe(finalize(() => {}));
+    console.log('using spinner', request);
+    this.spinnerService.startSpinner();
+
+    return next.handle(request).pipe(
+      finalize(() => {
+        this.spinnerService.stopSpinner();
+      })
+    );
   }
 }

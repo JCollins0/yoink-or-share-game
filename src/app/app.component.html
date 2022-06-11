@@ -1,3 +1,6 @@
 <app-nav-header class="header"></app-nav-header>
-<router-outlet></router-outlet>
+<div class="body">
+  <router-outlet></router-outlet>
+  <app-spinner *ngIf="spinnerActive$ | async"></app-spinner>
+</div>
 <app-nav-footer class="footer"></app-nav-footer>
