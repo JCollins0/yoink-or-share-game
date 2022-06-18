@@ -1,6 +1,9 @@
+<div class="skip-to-main-wrapper">
+  <app-button (click)="focusMain()" i18n="@@skip-to-main-content" class="skip-to-main">Skip to main content</app-button>
+</div>
 <app-nav-header class="header"></app-nav-header>
-<div class="body">
+<main id="maincontent" class="body" tabIndex="0" #MainContent>
   <router-outlet></router-outlet>
   <app-spinner *ngIf="spinnerActive$ | async"></app-spinner>
-</div>
+</main>
 <app-nav-footer class="footer"></app-nav-footer>

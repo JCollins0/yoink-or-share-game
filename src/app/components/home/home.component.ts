@@ -13,14 +13,6 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router, private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.store
-      .select(selectIsAuthenticated)
-      .pipe(take(1))
-      .subscribe((authenticated) => {
-        if (authenticated) {
-        } else {
-          this.router.navigate(['/login']);
-        }
-      });
+    console.log('Do nothing');
   }
 }

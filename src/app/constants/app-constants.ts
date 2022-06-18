@@ -2,6 +2,7 @@ export const PageTitles = {
   home: $localize`:@@home-title:Home`,
   login: $localize`:@@login-title:Login`,
   pageNotFound: $localize`:@@page-not-found-title:Page Not Found`,
+  dashboard: $localize`:@@dashboard-title:Dashboard`,
 };
 
 export const LoginConstants = {
@@ -15,6 +16,8 @@ export const LoginConstants = {
   passwordMaxLength: $localize`:@@password-max-length:Password can be at most 20 characters`,
   confirmPasswordLabel: $localize`:@@confirm-password-label:Confirm Password`,
   passwordMustMatch: $localize`:@@password-must-match:Passwords must match`,
+  signInHeader: $localize`:@@sign-in-header:Sign In`,
+  signUpHeader: $localize`:@@sign-in-header:Sign Up`,
 };
 
 export const SocketConstants = {

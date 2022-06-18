@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ export class AppComponent implements OnDestroy {
   title: string = 'yoink-or-share';
   theme: string = '';
   spinnerActive$: Observable<boolean>;
+  @ViewChild('MainContent') mainContent!: ElementRef;
 
   private readonly THEME_KEY = 'site-theme';
 
@@ -60,5 +61,10 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
+  }
+
+  focusMain() {
+    console.log(this.mainContent);
+    this.mainContent?.nativeElement.focus();
   }
 }

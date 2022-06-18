@@ -1,8 +1,46 @@
+@mixin phone {
+  @warn "This should not be used it is just here for reference";
+  /* xs (for phones - screens less than 768px wide) */
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  /* sm (for tablets - screens equal to or greater than 768px wide) */
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  /* md (for small laptops - screens equal to or greater than 992px wide) */
+  @media only screen and (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  /* lg (for laptops and desktops - screens equal to or greater than 1200px wide) */
+  @media only screen and (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin header-content {
+  display: block;
+  min-height: 7.75vh;
+}
+
 @mixin router-content {
   display: block;
-  min-height: 90vh;
-  height: 90vh;
+  min-height: 84vh;
   position: relative;
+}
+
+@mixin footer-content {
+  display: block;
+  min-height: 7.75vh;
 }
 
 @function hexToRGB($hex) {

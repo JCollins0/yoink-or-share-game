@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { LogoutAction } from 'src/app/actions/app.actions';
 import { selectIsAuthenticated, State } from 'src/app/reducers';
 
@@ -10,10 +11,15 @@ import { selectIsAuthenticated, State } from 'src/app/reducers';
   styleUrls: ['./nav-header.component.scss'],
 })
 export class NavHeaderComponent implements OnDestroy {
-  private authenticated$: Subscription;
+  public navOpen = false;
+  public authenticated$: Observable<boolean>;
+  private ngUnsubscribe: Subject<any>;
+
   constructor(private store: Store<State>) {
-    this.authenticated$ = this.store.select(selectIsAuthenticated).subscribe((authenticated) => {
-      this.authenticated = authenticated;
+    this.ngUnsubscribe = new Subject();
+    this.authenticated$ = this.store.select(selectIsAuthenticated).pipe(takeUntil(this.ngUnsubscribe));
+
+    this.authenticated$.subscribe((authenticated) => {
       if (authenticated) {
         setTimeout(() => {
           this.store.dispatch(LogoutAction());
@@ -22,9 +28,12 @@ export class NavHeaderComponent implements OnDestroy {
     });
   }
 
-  public authenticated: boolean = false;
+  logout() {
+    this.store.dispatch(LogoutAction());
+  }
 
   ngOnDestroy(): void {
-    this.authenticated$.unsubscribe();
+    this.ngUnsubscribe?.next();
+    this.ngUnsubscribe?.complete();
   }
 }

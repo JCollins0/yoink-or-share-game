@@ -8,7 +8,6 @@ import { LoginAction, SignUpAction } from 'src/app/actions/app.actions';
 import { LoginConstants } from 'src/app/constants/app-constants';
 import { CommonError, FormModel } from 'src/app/models/common';
 import { selectLoginError, selectUser, State } from 'src/app/reducers';
-import { deepClone } from 'src/app/utils/helpers';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +21,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .select(selectUser)
       .pipe(filter((user) => !!user))
       .subscribe(() => {
-        this.router.navigate(['home']);
+        this.router.navigate(['dashboard']);
       });
   }
+
+  LoginConstants = LoginConstants;
 
   public signInForm: FormGroup = this.fb.group({});
   public signUpForm: FormGroup = this.fb.group({});
@@ -182,10 +183,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: this.signInForm.get('password')?.value,
       },
     };
-    let test = deepClone(this.signInForm);
-    console.log(this.signInForm);
-    console.log(test);
-
     this.store.dispatch(LoginAction(payload));
   }
 

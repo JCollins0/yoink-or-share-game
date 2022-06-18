@@ -1,13 +1,32 @@
-// $theme-white: #d4e4f7;
-// $theme-black: #190934;
-// $theme-dark: #{$theme-black};
+$a: #2c3e50 #e74c3c #ecf0f1 #66ccff #2980b9;
+$b: #5b928a #006359 #162d2a;
+$c: #6596ba #ecfbff #eee8a9;
+
+// light theme
+$light-dark: #181818;
+$light-light: #f7f7f7;
+$light-secondary: #66ccff;
+$light-primary: $light-light;
+$light-primary-alt: #ecf0f1;
+$light-border: $light-dark;
+$light-btn-primary: #06ffcc;
+$light-btn-primary-alt: #a7f58b;
+$light-btn-disabled-bg: #b1b1b1;
+$light-btn-disabled-text-color: $light-dark;
+$light-btn-focus: $light-dark;
+$light-error: #a50000;
+// dark theme
+$dark-light: 0;
+$dark-secondary: 0;
+$dark-primary: 0;
+$dark-border: $dark-light;
+$dark-btn-primary: 0;
+$dark-btn-primary-alt: 0;
+$dark-btn-disabled-bg: 0;
+$dark-btn-disabled-text-color: 0;
+$dark-btn-focus: $dark-light;
+
 $theme-light: #f7f6f6;
-// $theme-light-darker: #e7e4e4;
-// $theme-light-accent: #bfbdd8;
-// $theme-light-shade: #eeeeee;
-// //$theme-main:#9C7BBC;
-// $theme-dark-accent: #7f9bd5;
-// $theme-dark-shade: #2b4e99;
 
 $theme-primary: #9c7bbc; //Primary
 $theme-info: #2b4e99; //Info
@@ -17,7 +36,7 @@ $theme-danger: #f44336; //Danger
 $theme-danger-lighter: #ff0000; //Danger
 $theme-danger-darker: #790e06;
 
-$theme-light-primary: #7d8cc4;
+// $theme-light-primary: #7d8cc4;
 $theme-light-secondary: #434656;
 $theme-light-tertiary: #a7aabc;
 $theme-light-accent: #c57981;

@@ -1,6 +1,31 @@
-<div class="nav-header">
-  <div>
-    Nav Header works!
-    <app-button *ngIf="!authenticated" routerLink="/login" [id]="'nav-header-login'" tabindex="-1">Login</app-button>
-  </div>
-</div>
+<nav>
+  <ul>
+    <li class="logo"><span>JC Inc</span></li>
+    <li class="hamburger-menu">
+      <app-button (click)="navOpen = !navOpen"><i class="bi bi-list"></i></app-button>
+    </li>
+    <li class="menu-items" [ngClass]="{ 'menu-open': navOpen }" (click)="navOpen = false">
+      <a class="menu-item">Page 1</a>
+      <a class="menu-item">Page 2</a>
+      <a class="menu-item">Page 3</a>
+      <a class="menu-item" routerLink="/about">About</a>
+      <app-button
+        class="menu-item"
+        *ngIf="(authenticated$ | async) === false"
+        routerLink="/login"
+        [id]="'nav-header-login'"
+        tabindex="-1"
+        >Login
+      </app-button>
+      <app-button
+        class="menu-item"
+        *ngIf="authenticated$ | async"
+        routerLink="/login"
+        [id]="'nav-header-login'"
+        tabindex="-1"
+        (click)="logout()"
+        >Logout
+      </app-button>
+    </li>
+  </ul>
+</nav>

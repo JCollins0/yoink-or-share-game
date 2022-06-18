@@ -1,8 +1,8 @@
-@import '../../../theme-colors.scss';
-@import '../../../mixins.scss';
+@use '../../../theme-colors.scss' as *;
+@use '../../../mixins.scss';
 
 :host {
-  @include router-content;
+  @include mixins.router-content;
 
   margin: auto;
   display: flex;
@@ -10,21 +10,23 @@
   .view-wrapper {
     margin: auto;
     width: 80%;
+    padding: 5%;
 
     .form-wrapper {
-      width: fit-content;
-      margin: auto;
+      // width: fit-content;
+      // margin: auto;
       display: block;
 
       .form-container {
         display: block;
         justify-content: center;
         align-items: center;
-        border: 0.2rem dashed var(--theme-secondary);
+        background-color: var(--theme-bg-color-primary-alt);
+        border: 0.1rem solid var(--theme-border);
         padding: 4%;
 
         .error-text {
-          color: $theme-danger;
+          color: var(--theme-form-error);
         }
 
         .form-field {
@@ -52,8 +54,8 @@
               padding-left: 0.5rem;
 
               .form-validation-text {
-                color: $theme-danger;
-                text-shadow: 0px 0px 0px $theme-danger-darker;
+                color: var(--theme-form-error);
+                // text-shadow: 0px 0px 0px $theme-danger-darker;
                 font-size: medium;
               }
             }

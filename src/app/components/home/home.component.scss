@@ -1,7 +1,7 @@
-@import '../../../mixins.scss';
+@use '../../../mixins.scss';
 
 :host {
-  @include router-content;
+  @include mixins.router-content;
 }
 
 .chat-window {

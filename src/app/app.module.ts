@@ -24,6 +24,7 @@ import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { SpinnerService } from './service/spinner.service';
 import { PersistenceService } from './service/persistence.service';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
     ChatComponent,
     AppButtonComponent,
     SpinnerComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

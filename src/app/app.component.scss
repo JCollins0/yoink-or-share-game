@@ -1,17 +1,29 @@
-@import '../mixins.scss';
+@use '../mixins.scss';
 
 .header {
-  display: block;
-  height: fit-content;
-  min-height: 4vh;
+  @include mixins.header-content;
 }
 
 .body {
-  @include router-content;
+  @include mixins.router-content;
 }
 
 .footer {
-  display: block;
-  height: fit-content;
-  min-height: 4vh;
+  @include mixins.footer-content;
+}
+
+.skip-to-main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 7.75vh;
+  z-index: -1000;
+}
+
+.skip-to-main-wrapper:focus-within {
+  background-color: var(--theme-bg-color-primary-alt);
+  z-index: unset;
 }

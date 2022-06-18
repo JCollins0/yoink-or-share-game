@@ -1,4 +1,33 @@
 :host {
-  height: fit-content;
+  // height: fit-content;
+  // display: inline-block;
+}
+
+.btn {
+  background-color: var(--theme-btn-primary);
+  color: var(--theme-btn-primary-text-color);
+  border: 0.15rem var(--theme-btn-primary-border) solid;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  margin: 0.1rem;
   display: inline-block;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  color: var(--theme-btn-disabled-text-color);
+  background-color: var(--theme-btn-disabled-bg);
+  border: 0.15rem var(--theme-btn-disabled-bg) solid;
+  cursor: default;
+}
+
+.btn:hover:not(:disabled),
+.btn:focus:not(:disabled) {
+  background-color: var(--theme-btn-primary-alt);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--theme-btn-focus);
 }

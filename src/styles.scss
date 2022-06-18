@@ -1,21 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'theme-colors';
-@import 'mixins';
+@use 'theme-colors' as colors;
+@use 'mixins';
 
 @media (prefers-color-scheme: light) {
   .theme {
+    --theme-bg-color-primary: #{colors.$light-primary};
+    --theme-bg-color-primary-alt: #{colors.$light-primary-alt};
+    --theme-bg-color-secondary: #{colors.$light-secondary};
+    --theme-border: #{colors.$light-border};
+
+    --theme-btn-primary: #{colors.$light-btn-primary};
+    --theme-btn-primary-text-color: #{colors.$light-dark};
+    --theme-btn-primary-alt: #{colors.$light-btn-primary-alt};
+    --theme-btn-primary-border: #{darken(colors.$light-btn-primary, 25)};
+
+    --theme-btn-disabled-bg: #{colors.$light-btn-disabled-bg};
+    --theme-btn-disabled-text-color: #{colors.$light-btn-disabled-text-color};
+    --theme-btn-focus: #{colors.$light-btn-focus};
+
     --theme-primary: #5100ff;
     --theme-primary-lighter: #3f64ff;
     --theme-secondary: #008c6e;
     --theme-accent: #1f1926;
     --text-color: #000000;
     --btn-border-color: var(--text-color);
-    --btn-text-color: #ffffff;
-    --theme-bg-color: #ffffff;
-    --theme-bg-color-rgb: #{hexToRGB(#ffffff)};
+
+    --theme-bg-color-rgb: #{mixins.hexToRGB(#ffffff)};
     --theme-text-disabled: #000000;
     --theme-bg-disabled: #b1b1b1;
     --theme-border-disabled: var(--theme-bg-disabled);
+
+    --theme-form-error: #{colors.$light-error};
   }
 }
 
@@ -36,37 +51,12 @@
   }
 }
 
-.btn {
-  background-color: var(--theme-primary);
-  color: var(--btn-text-color);
-  border: 0.15rem var(--btn-border-color) solid;
-  padding: 0.25rem 0.5rem;
-  text-align: center;
-  text-decoration: none;
-  margin: 0.1rem;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.btn:disabled {
-  color: var(--theme-text-disabled);
-  background-color: var(--theme-bg-disabled);
-  border: 0.15rem var(--theme-border-disabled) solid;
-  cursor: default;
-}
-
-.btn:hover:not(:disabled),
-.btn:focus:not(:disabled) {
-  background-color: var(--theme-primary-lighter);
-  color: var(--btn-text-color);
-}
-
 .text-primary {
   color: var(--text-color);
 }
 
 * {
-  color: var(--text-color);
-  background-color: var(--theme-bg-color);
+  // color: var(--text-color);
+  // background-color: var(--theme-bg-color-primary);
   font-family: Arial, Helvetica, sans-serif;
 }
