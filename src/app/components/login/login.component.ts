@@ -177,7 +177,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onSignInSubmit() {
-    var payload = {
+    let payload = {
       credentials: {
         username: this.signInForm.get('username')?.value,
         password: this.signInForm.get('password')?.value,
@@ -187,7 +187,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onSignUpSubmit() {
-    var payload = {
+    let payload = {
       credentials: {
         username: this.signUpForm.get('username')?.value,
         password: this.signUpForm.get('password')?.value,

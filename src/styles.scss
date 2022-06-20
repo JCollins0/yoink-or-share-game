@@ -51,6 +51,14 @@
   }
 }
 
+.bi {
+  height: 24px;
+}
+
+.bi::before {
+  vertical-align: text-bottom !important;
+}
+
 .text-primary {
   color: var(--text-color);
 }

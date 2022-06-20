@@ -2,7 +2,7 @@
   <ul>
     <li class="logo"><span>JC Inc</span></li>
     <li class="hamburger-menu">
-      <app-button (click)="navOpen = !navOpen"><i class="bi bi-list"></i></app-button>
+      <app-button (click)="navOpen = !navOpen" class="icon-btn"><i class="bi bi-list"></i></app-button>
     </li>
     <li class="menu-items" [ngClass]="{ 'menu-open': navOpen }" (click)="navOpen = false">
       <a class="menu-item">Page 1</a>

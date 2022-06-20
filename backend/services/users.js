@@ -2,6 +2,7 @@ import { pool, constructQuery, getUserResponse } from '../helpers/db_helper.js';
 import { QUERIES, HTTP_CODES } from '../helpers/config.js';
 import { makeError } from '../helpers/utils.js';
 import { ERROR_CODES } from '../helpers/error_codes.js';
+import { checkHasPermission, RESOURCES, ACTIONS } from '../helpers/permissions.js';
 
 export function createUser(username, password, response) {
   // lookup user in database
@@ -16,8 +17,8 @@ export function createUser(username, password, response) {
       pool
         .query(constructQuery(QUERIES.CREATE_USER, username, password))
         .then((res) => {
-          var user = res.rows[0];
-          return response.status(HTTP_CODES.CREATED.code).json(getUserResponse(user));
+          let user = getUserResponse(res.rows[0]);
+          return response.status(HTTP_CODES.CREATED.code).json(user);
         })
         .catch((err) => response.status(HTTP_CODES.SERVER_ERROR.code).json(makeError(HTTP_CODES.SERVER_ERROR.code)));
     })
@@ -31,7 +32,11 @@ export function login(username, password, response) {
       if (res.rows.length === 0) {
         return response.status(HTTP_CODES.UNAUTHORIZED.code).json(makeError(ERROR_CODES.WRONG_USERNAME_PASSWORD));
       }
-      var user = res.rows[0];
+      let user = getUserResponse(res.rows[0]);
+      if (!checkHasPermission(user, RESOURCES.ACCOUNT, ACTIONS.LOGIN)) {
+        return response.status(HTTP_CODES.FORBIDDEN.code).json(makeError(ERROR_CODES.USER_ACCOUNT_LOCKED));
+      }
+
       return response.status(HTTP_CODES.OK.code).json(getUserResponse(user));
     })
     .catch((err) => response.status(HTTP_CODES.SERVER_ERROR.code).json(makeError(HTTP_CODES.SERVER_ERROR.code)));

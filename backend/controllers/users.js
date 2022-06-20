@@ -7,26 +7,25 @@ import { validateFields, makeError } from '../helpers/utils.js';
 import { createUser, login } from '../services/users.js';
 
 router.post('/new', function (req, response) {
-    var username = req.body.username;
-    var password = req.body.password;
+  let username = req.body.username;
+  let password = req.body.password;
 
-    if (!validateFields(username, password)) {
-        return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL))
-    }
+  if (!validateFields(username, password)) {
+    return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
+  }
 
-    return createUser(username, password, response);
+  return createUser(username, password, response);
 });
 
+router.post('/login', function (req, response) {
+  let username = req.body.username;
+  let password = req.body.password;
 
-router.post("/login", function (req, response) {
-    var username = req.body.username;
-    var password = req.body.password;
+  if (!validateFields(username, password)) {
+    return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
+  }
 
-    if (!validateFields(username, password)) {
-        return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL))
-    }
-
-    return login(username, password, response)
+  return login(username, password, response);
 });
 
 export default router;
