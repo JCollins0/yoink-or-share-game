@@ -2,6 +2,7 @@
 import express from 'express';
 const app = express();
 import userRouter from './controllers/users.js';
+import permissionsRouter from './controllers/permissions.js';
 import { fileURLToPath, URL } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
@@ -26,6 +27,7 @@ function loadRoutes() {
   app.use(express.static(fileURLToPath(new URL('../dist/yoink-or-share', import.meta.url))));
 
   app.use('/api/user', userRouter);
+  app.use('/api/permissions', permissionsRouter);
   app.get('/*', function (req, res) {
     const pathToFiles = ['../dist/yoink-or-share/'];
     if (localized) {

@@ -2,7 +2,7 @@
 
 
 -- drop table users
-drop table if exists USERS;
+drop table if exists USERS CASCADE;
 
 -- these are users who create accounts and can create sessions
 CREATE TABLE USERS (
@@ -15,7 +15,7 @@ CREATE TABLE USERS (
 );
 
 -- drop table resource
-drop table if exists RESOURCES;
+drop table if exists RESOURCES CASCADE;
 
 -- create resources table. This table holds different types of resources in the system
 CREATE TABLE RESOURCES (
@@ -25,7 +25,7 @@ CREATE TABLE RESOURCES (
 );
 
 -- drop table ACTIONS
-drop table if exists ACTIONS;
+drop table if exists ACTIONS CASCADE;
 
 -- create actions table. This table holds different actions that roles can perform
 CREATE TABLE ACTIONS (
@@ -35,7 +35,7 @@ CREATE TABLE ACTIONS (
 );
 
 -- drop table role permissions
-drop table if exists ROLES;
+drop table if exists ROLES CASCADE;
 
 -- create role table. This table holds different types of roles available
 CREATE TABLE ROLES (
@@ -45,14 +45,14 @@ CREATE TABLE ROLES (
 );
 
 -- drop table role permissions
-drop table if exists ROLE_PERMISSIONS;
+drop table if exists ROLE_PERMISSIONS CASCADE;
 
 -- create role permissions table. This table holds different types of permissions that roles have
 CREATE TABLE ROLE_PERMISSIONS (
 	ROLE_PERMISSION_SID	integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	ROLE_SID	integer,
-	RESOURCE_SID integer,
-	ACTION_SID integer,
+	ROLE_SID	integer NOT NULL,
+	RESOURCE_SID integer NOT NULL,
+	ACTION_SID integer NOT NULL,
 	CRT_TS		date default NOW(),
 
 	CONSTRAINT fk_role_id
@@ -65,17 +65,19 @@ CREATE TABLE ROLE_PERMISSIONS (
 
 	CONSTRAINT fk_action_id
       FOREIGN KEY(ACTION_SID)
-	  REFERENCES ACTIONS(ACTION_SID)
+	  REFERENCES ACTIONS(ACTION_SID),
+
+	UNIQUE (ROLE_SID,RESOURCE_SID,ACTION_SID)
 );
 
 -- drop table user roles
-drop table if exists USER_ROLES;
+drop table if exists USER_ROLES CASCADE;
 
 -- create user roles table. This table holds different types of roles that users can have
 CREATE TABLE USER_ROLES (
 	USER_ROLE_SID	integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	USER_SID integer,
-	ROLE_SID integer,
+	USER_SID integer NOT NULL,
+	ROLE_SID integer NOT NULL,
 	CRT_TS		date default NOW(),
 
 	CONSTRAINT fk_user_id

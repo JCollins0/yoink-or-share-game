@@ -9,6 +9,8 @@ function getDBSettings() {
   return properties.db;
 }
 
+export const pool = new Pool(getDBSettings());
+
 export function constructQuery(query, ...values) {
   return {
     text: query,
@@ -41,7 +43,30 @@ export function getUserResponse(user) {
   };
 }
 
-export const pool = new Pool(getDBSettings());
+export function getRoleResponse(role) {
+  return {
+    roleName: role.role_name.trim(),
+  };
+}
+
+export function getActionResponse(action) {
+  return {
+    actionName: action.action_name.trim(),
+  };
+}
+
+export function getResourceResponse(resource) {
+  return {
+    resourceName: resource.resource_name.trim(),
+  };
+}
+
+export function getPermissionResponse(permission) {
+  return {
+    resourceName: permission.resource_name,
+    actionName: permission.action_name,
+  };
+}
 
 export default {
   constructQuery,

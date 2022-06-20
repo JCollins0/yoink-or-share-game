@@ -5,13 +5,27 @@ export const ACTIONS = {
   LOGIN: 'LOGIN',
   VIEW: 'VIEW',
   EDIT: 'EDIT',
+  CREATE: 'CREATE',
 };
 
 export const RESOURCES = {
   ACCOUNT: 'ACCOUNT',
+  ROLE: 'ROLE',
+  USER_LIST: 'USER_LIST',
 };
 
 export function checkHasPermission(user, resource = '-', action = '-') {
+  return checkHasPermissionBulk(user, [{ resource: resource, actions: [action] }]);
+}
+
+/**
+ * @param user
+ *  the user object to check
+ * @param bulkResourceActionCheck
+ *  Data should come in format [{resource: "SOME_RESOURCE", action: ["SOME_ACTION",...]}, ...]
+ * @returns true if user has access to all permissions, false if any permissions are not present
+ */
+export function checkHasPermissionBulk(user, bulkResourceActionCheck = []) {
   if (!user) {
     return false;
   }
@@ -22,7 +36,13 @@ export function checkHasPermission(user, resource = '-', action = '-') {
       if (res.rows.length === 0) {
         return false;
       }
-      return res.rows.some((permission) => permission.resource_name === resource && permission.action_name === action);
+      return bulkResourceActionCheck.every((check) =>
+        check.actions.every((action) =>
+          res.rows.some(
+            (permission) => permission.resource_name === check.resource && permission.action_name === action
+          )
+        )
+      );
     })
     .catch((err) => {
       console.log('Some error occured when checking permissions', err);

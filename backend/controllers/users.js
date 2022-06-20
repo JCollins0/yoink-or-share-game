@@ -3,8 +3,10 @@ export const router = Router();
 
 import { HTTP_CODES } from '../helpers/config.js';
 import { ERROR_CODES } from '../helpers/error_codes.js';
+import { createPermissionMiddleware } from '../helpers/middleware.js';
+import { ACTIONS, RESOURCES } from '../helpers/permissions.js';
 import { validateFields, makeError } from '../helpers/utils.js';
-import { createUser, login } from '../services/users.js';
+import { createUser, getAllUsers, login } from '../services/users.js';
 
 router.post('/new', function (req, response) {
   let username = req.body.username;
@@ -27,5 +29,14 @@ router.post('/login', function (req, response) {
 
   return login(username, password, response);
 });
+
+router.get(
+  '/all',
+  createPermissionMiddleware([{ resource: RESOURCES.USER_LIST, action: ACTIONS.VIEW }]),
+  function (req, response) {
+    // TODO add query parameters for sorting and filtering
+    return getAllUsers(response);
+  }
+);
 
 export default router;
