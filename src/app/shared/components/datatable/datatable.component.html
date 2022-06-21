@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let item of colData">{{ item.title }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of rowData">
+      <td *ngFor="let col of colData">
+        <ng-container *ngIf="col.type === DataColumnType.TEXT">{{ item?.[col.label] }}</ng-container>
+        <ng-container
+          *ngIf="col.type === DataColumnType.TEMPLATE"
+          [ngTemplateOutlet]="findTemplate(col.label)"
+          [ngTemplateOutletContext]="{ row: item, col: col }"
+        ></ng-container>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot></tfoot>
+</table>
+
+<ng-content select="ng-template"></ng-content>

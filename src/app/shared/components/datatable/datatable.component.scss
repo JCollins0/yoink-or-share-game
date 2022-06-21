@@ -1,0 +1,32 @@
+:host {
+  width: 100%;
+}
+
+table {
+  border: var(--text-color) solid 1px;
+  background-color: var(--theme-bg-color-primary-alt);
+}
+
+table,
+tr,
+th {
+  width: 100%;
+}
+
+th {
+  border-bottom: var(--text-color) solid 1px;
+}
+
+td {
+  text-align: center;
+}
+
+tbody {
+  tr:nth-child(even) {
+    background-color: var(--theme-bg-color-primary-alt);
+  }
+
+  tr:nth-child(odd) {
+    background-color: var(--theme-bg-color-primary);
+  }
+}
