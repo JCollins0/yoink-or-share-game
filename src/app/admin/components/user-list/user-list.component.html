@@ -1,0 +1,5 @@
+<app-datatable [colData]="sampleColData" [rowData]="sampleRowData">
+  <ng-template appTableTemplate id="buttons" let-row>
+    <app-button>{{ row?.value }}</app-button>
+  </ng-template>
+</app-datatable>
