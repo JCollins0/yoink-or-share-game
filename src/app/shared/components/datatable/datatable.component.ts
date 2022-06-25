@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ContentChildren, Input, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { TableDirective } from '../../directives/table.directive';
-import { DataColumnType, DatatableColData } from '../../models/models';
+import { DataColumnType, DatatableColData } from '../../models';
 
 @Component({
   selector: 'app-datatable',

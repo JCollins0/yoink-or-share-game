@@ -1,10 +1,16 @@
+@use '/src/mixins';
+
 :host {
   width: 100%;
 }
 
 table {
   border: var(--text-color) solid 1px;
-  background-color: var(--theme-bg-color-primary-alt);
+  background-color: var(--text-color);
+
+  @include mixins.tablet {
+    table-layout: fixed;
+  }
 }
 
 table,
@@ -19,6 +25,19 @@ th {
 
 td {
   text-align: center;
+  min-width: fit-content;
+
+  p {
+    margin: 0;
+  }
+
+  .date {
+    white-space: nowrap;
+  }
+}
+
+thead {
+  background-color: var(--theme-bg-color-primary-alt);
 }
 
 tbody {

@@ -3,8 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { PersistenceService } from './service/persistence.service';
-import { SpinnerService } from './service/spinner.service';
+import { PersistenceService } from './shared/services/persistence.service';
+import { SpinnerService } from './shared/services/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -63,8 +63,9 @@ export class AppComponent implements OnDestroy {
     this.routerSubscription.unsubscribe();
   }
 
-  focusMain() {
-    console.log(this.mainContent);
-    this.mainContent?.nativeElement.focus();
+  focusMain(event: any) {
+    if (event.mainClicked) {
+      this.mainContent?.nativeElement.focus();
+    }
   }
 }

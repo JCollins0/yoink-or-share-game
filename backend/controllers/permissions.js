@@ -4,8 +4,8 @@ export const router = Router();
 import { HTTP_CODES } from '../helpers/config.js';
 import { ERROR_CODES } from '../helpers/error_codes.js';
 import { createPermissionMiddleware } from '../helpers/middleware.js';
-import { ACTIONS, RESOURCES } from '../helpers/permissions.js';
-import { validateFields, makeError } from '../helpers/utils.js';
+import { ACTIONS, checkHasPermission, RESOURCES } from '../helpers/permissions.js';
+import { validateFields, makeError, handleServerError } from '../helpers/utils.js';
 import {
   createRole,
   createAction,
@@ -16,6 +16,22 @@ import {
   getAllPermissionsForRole,
   addResourceActionsToRole,
 } from '../services/permissions.js';
+
+router.post('/check', function (req, response) {
+  let user = req.body.user;
+  let resource = req.body.resource;
+  let action = req.body.action;
+
+  // todo validate user token
+  return checkHasPermission(user, resource, action, true)
+    .then((res) => {
+      if (res) {
+        return response.status(HTTP_CODES.OK.code).json(true);
+      }
+      return response.status(HTTP_CODES.FORBIDDEN.code).json(false);
+    })
+    .catch((err) => handleServerError(response, err));
+});
 
 router.use(createPermissionMiddleware([{ resource: RESOURCES.ROLE, actions: [ACTIONS.VIEW, ACTIONS.CREATE] }]));
 

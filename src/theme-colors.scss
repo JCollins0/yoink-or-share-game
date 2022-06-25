@@ -16,15 +16,18 @@ $light-btn-disabled-text-color: $light-dark;
 $light-btn-focus: $light-dark;
 $light-error: #a50000;
 // dark theme
-$dark-light: 0;
-$dark-secondary: 0;
-$dark-primary: 0;
+$dark-dark: #222222;
+$dark-light: #d9d9d9;
+$dark-secondary: #003e6e;
+$dark-primary: $dark-dark;
+$dark-primary-alt: #323232;
 $dark-border: $dark-light;
-$dark-btn-primary: 0;
-$dark-btn-primary-alt: 0;
-$dark-btn-disabled-bg: 0;
-$dark-btn-disabled-text-color: 0;
+$dark-btn-primary: #015c4b;
+$dark-btn-primary-alt: #007736;
+$dark-btn-disabled-bg: #525151;
+$dark-btn-disabled-text-color: $dark-light;
 $dark-btn-focus: $dark-light;
+$dark-error: #ffabab;
 
 $theme-light: #f7f6f6;
 

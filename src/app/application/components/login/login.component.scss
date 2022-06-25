@@ -1,0 +1,81 @@
+@use '/src/theme-colors.scss' as *;
+@use '/src/mixins';
+
+:host {
+  @include mixins.router-content;
+
+  margin: auto;
+  display: flex;
+
+  .view-wrapper {
+    margin: auto;
+    width: 80%;
+    padding: 5%;
+
+    .form-wrapper {
+      // width: fit-content;
+      // margin: auto;
+      display: block;
+
+      .form-container {
+        display: block;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--theme-bg-color-primary-alt);
+        border: 0.1rem solid var(--theme-border);
+        padding: 4%;
+
+        .error-text {
+          color: var(--theme-form-error);
+        }
+
+        .form-field {
+          min-height: 2.75rem;
+
+          .form-field-label {
+            padding: 2.5%;
+          }
+
+          .form-row {
+            display: flex;
+            justify-content: space-between;
+
+            .form-input {
+              display: inline-block;
+              padding: 2% 0;
+
+              .form-input-text {
+                width: 95%;
+              }
+            }
+
+            .form-validation-container {
+              display: inline-flex;
+              padding-left: 0.5rem;
+
+              .form-validation-text {
+                color: var(--theme-form-error);
+                // text-shadow: 0px 0px 0px $theme-danger-darker;
+                font-size: medium;
+              }
+            }
+          }
+        }
+
+        .submit-container {
+          padding: 3% 0;
+          display: flex;
+          justify-content: left;
+
+          .button-wrapper {
+            padding: 0 5px;
+
+            .btn {
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+    }
+  }
+}

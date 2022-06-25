@@ -1,0 +1,118 @@
+@use '/src/mixins';
+
+:host {
+  background-color: var(--theme-bg-color-secondary);
+  border-bottom: 0.25vh solid var(--theme-border);
+  position: relative;
+}
+
+nav {
+  min-height: inherit;
+  width: 100%;
+  display: block;
+
+  ul {
+    display: flex;
+    margin: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    min-height: inherit;
+    flex-wrap: wrap;
+
+    @include mixins.tablet {
+      flex-wrap: nowrap;
+    }
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .logo {
+    margin-left: 2rem;
+    font-size: 1.5rem;
+
+    @include mixins.tablet {
+      flex-basis: 25%;
+    }
+  }
+
+  .hamburger-menu {
+    margin-right: 2rem;
+    display: flex;
+    justify-content: flex-end;
+
+    .bi {
+      font-size: 1.5rem;
+    }
+
+    @include mixins.tablet {
+      display: none;
+    }
+  }
+
+  .menu-items {
+    list-style: none;
+    display: none;
+
+    .menu-item {
+      color: var(--text-color);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @include mixins.phone {
+      &.menu-open {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        background-color: var(--theme-bg-color-secondary);
+        border-top: 1px solid var(--theme-border);
+
+        .menu-item {
+          display: flex;
+          justify-content: center;
+          border-bottom: 1px solid var(--theme-border);
+          padding: 0.4rem 0;
+        }
+
+        .menu-item:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    @include mixins.tablet {
+      padding: 0 10px;
+
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+      margin-right: 2rem;
+      flex-basis: 100%;
+    }
+  }
+}
+
+.skip-to-main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 7.75vh;
+  z-index: -1000;
+  height: 100%;
+}
+
+.skip-to-main-wrapper:focus-within {
+  background-color: var(--theme-bg-color-primary-alt);
+  z-index: unset;
+}
+
+// ul {
+//   display: flex;
+//
+// }

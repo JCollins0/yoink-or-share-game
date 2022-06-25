@@ -36,6 +36,7 @@
   display: block;
   min-height: 84vh;
   position: relative;
+  background-color: var(--theme-bg-color-primary);
 }
 
 @mixin footer-content {

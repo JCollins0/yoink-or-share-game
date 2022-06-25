@@ -27,3 +27,8 @@
   background-color: var(--theme-bg-color-primary-alt);
   z-index: unset;
 }
+
+main:focus-visible {
+  outline: var(--theme-border) solid 1px;
+  margin: 0px 2px;
+}

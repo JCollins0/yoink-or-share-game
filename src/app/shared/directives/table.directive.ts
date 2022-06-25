@@ -4,7 +4,6 @@ import { Directive, Input, TemplateRef } from '@angular/core';
   selector: '[appTableTemplate]',
 })
 export class TableDirective {
-  constructor(public templateRef: TemplateRef<any>) {}
-
   @Input() id: string = '';
+  constructor(public templateRef: TemplateRef<any>) {}
 }

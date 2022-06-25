@@ -36,18 +36,35 @@
 
 @media (prefers-color-scheme: dark) {
   .theme {
-    --theme-bg-color: #232323;
-    --theme-bg-color-rgb: #{hexToRGB(#232323)};
-    --btn-text-color: #fffcfc;
-    --text-color: #ffffff;
-    --btn-border-color: var(--btn-text-color);
+    --theme-bg-color-primary: #{colors.$dark-primary};
+    --theme-bg-color-primary-alt: #{colors.$dark-primary-alt};
+    --theme-bg-color-secondary: #{colors.$dark-secondary};
+    --theme-border: #{colors.$dark-border};
+
+    --theme-btn-primary: #{colors.$dark-btn-primary};
+    --theme-btn-primary-text-color: #{colors.$dark-light};
+    --theme-btn-primary-alt: #{colors.$dark-btn-primary-alt};
+    --theme-btn-primary-border: #{lighten(colors.$dark-btn-primary, 25)};
+
+    --theme-btn-disabled-bg: #{colors.$dark-btn-disabled-bg};
+    --theme-btn-disabled-text-color: #{colors.$dark-btn-disabled-text-color};
+    --theme-btn-focus: #{colors.$dark-btn-focus};
+
+    --text-color: #{colors.$dark-light};
+
     --theme-primary: #5100ff;
     --theme-primary-lighter: #3f64ff;
     --theme-secondary: #008c6e;
-    --theme-accent: #4b4453;
+    --theme-accent: #1f1926;
+
+    --btn-border-color: var(--text-color);
+
+    --theme-bg-color-rgb: #{mixins.hexToRGB(#ffffff)};
     --theme-text-disabled: #000000;
     --theme-bg-disabled: #b1b1b1;
-    --theme-border-disabled: #d7d7d7;
+    --theme-border-disabled: var(--theme-bg-disabled);
+
+    --theme-form-error: #{colors.$dark-error};
   }
 }
 
@@ -59,12 +76,12 @@
   vertical-align: text-bottom !important;
 }
 
-.text-primary {
-  color: var(--text-color);
+input {
+  background-color: var(--theme-bg-color-primary);
 }
 
 * {
-  // color: var(--text-color);
+  color: var(--text-color);
   // background-color: var(--theme-bg-color-primary);
   font-family: Arial, Helvetica, sans-serif;
 }

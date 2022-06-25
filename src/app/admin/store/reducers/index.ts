@@ -5,7 +5,6 @@ import { selectUserList, userListReducer, UserListState } from './users-list';
 export interface AdminState {
   userList: UserListState;
 }
-
 export const reducers: ActionReducerMap<AdminState> = {
   userList: userListReducer,
 };

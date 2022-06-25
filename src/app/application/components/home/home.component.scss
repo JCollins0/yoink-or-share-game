@@ -1,0 +1,12 @@
+@use '/src/mixins';
+
+:host {
+  @include mixins.router-content;
+}
+
+.chat-window {
+  width: 25%;
+  min-width: 400px;
+  margin-left: auto;
+  display: block;
+}

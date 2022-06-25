@@ -40,6 +40,8 @@ export function getUserResponse(user) {
     userName: user.user_name.trim(),
     password: user.passwd,
     secret_token: user.secret_token,
+    createdDate: user.crt_ts,
+    updatedDate: user.chg_ts,
   };
 }
 

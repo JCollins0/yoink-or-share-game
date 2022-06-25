@@ -1,5 +1,6 @@
 import { pool, constructQuery } from './db_helper.js';
 import { QUERIES } from './config.js';
+import { resolve } from 'path';
 
 export const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -14,8 +15,8 @@ export const RESOURCES = {
   USER_LIST: 'USER_LIST',
 };
 
-export function checkHasPermission(user, resource = '-', action = '-') {
-  return checkHasPermissionBulk(user, [{ resource: resource, actions: [action] }]);
+export function checkHasPermission(user, resource = '-', action = '-', promise = false) {
+  return checkHasPermissionBulk(user, [{ resource: resource, actions: [action] }], promise);
 }
 
 /**
@@ -25,9 +26,9 @@ export function checkHasPermission(user, resource = '-', action = '-') {
  *  Data should come in format [{resource: "SOME_RESOURCE", action: ["SOME_ACTION",...]}, ...]
  * @returns true if user has access to all permissions, false if any permissions are not present
  */
-export function checkHasPermissionBulk(user, bulkResourceActionCheck = []) {
+export function checkHasPermissionBulk(user, bulkResourceActionCheck = [], promise = false) {
   if (!user) {
-    return false;
+    return promise ? new Promise((resolve, reject) => resolve(false)) : false;
   }
   let id = user.userId;
   return pool
