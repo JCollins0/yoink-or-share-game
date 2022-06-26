@@ -16,6 +16,6 @@ export const spinnerReducer = createReducer(
 );
 
 export const isSpinnerActive = (spinnerState: SpinnerState): boolean => {
-  console.log(spinnerState);
+  console.log(spinnerState.count > 0);
   return spinnerState.count > 0;
 };

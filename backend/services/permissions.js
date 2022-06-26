@@ -10,6 +10,32 @@ import { QUERIES, HTTP_CODES } from '../helpers/config.js';
 import { handleServerError, makeError } from '../helpers/utils.js';
 import { ERROR_CODES } from '../helpers/error_codes.js';
 
+export function getUserPermissions(user, response) {
+  pool
+    .query(constructQuery(QUERIES.USER_PERMISSION_MATRIX, user.userId))
+    .then((res) => {
+      let permissions = res.rows
+        .map((permisison) => getPermissionResponse(permisison))
+        .reduce((prev, curr) => {
+          curr = {
+            ...curr,
+            actions: [curr.actionName],
+          };
+          delete curr.actionName;
+          let perm = prev.find((item) => item.resourceName === curr.resourceName);
+          if (!perm) {
+            prev.push(curr);
+          } else {
+            perm.actions = [...perm.actions, ...curr.actions];
+          }
+          return prev;
+        }, []);
+
+      response.status(HTTP_CODES.OK.code).json(permissions);
+    })
+    .catch((err) => handleServerError(response, err));
+}
+
 export function getAllRoles(response) {
   pool
     .query(constructQuery(QUERIES.GET_ALL_ROLES))
@@ -129,7 +155,7 @@ export function addResourceActionsToRole(role, resourceActions = [], response) {
 }
 
 export function getAllPermissionsForRole(role, response) {
-  pool
+  return pool
     .query(constructQuery(QUERIES.GET_ALL_PERMISSIONS_FOR_ROLE, role))
     .then((res) => {
       let permissions = res.rows
@@ -148,7 +174,7 @@ export function getAllPermissionsForRole(role, response) {
           }
           return prev;
         }, []);
-      return response.status(HTTP_CODES.OK.code).json(permissions);
+      return permissions;
     })
     .catch((err) => handleServerError(response, err));
 }

@@ -10,7 +10,10 @@ import { DataColumnType, DatatableColData } from '../../models';
 export class DatatableComponent implements OnInit, AfterContentInit {
   DataColumnType = DataColumnType;
   @Input() colData: Array<DatatableColData> = [];
-  @Input() rowData: Array<any> = [];
+  _rowData: Array<any> = [];
+  @Input() set rowData(rowData: Array<any> | null) {
+    this._rowData = rowData === null ? [] : rowData;
+  }
 
   @ContentChildren(TableDirective) tableTemplates!: QueryList<TableDirective>;
 

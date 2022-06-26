@@ -11,14 +11,14 @@ export function createUser(username, password, response) {
     .then((res) => {
       if (res.rows.length > 0) {
         // user already exists send error to frontend
-        return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.USER_ALREADY_EXISTS));
+        return { resCode: HTTP_CODES.BAD_REQUEST.code, res: makeError(ERROR_CODES.USER_ALREADY_EXISTS) };
       }
       // user doesn't exist, add new entry
       pool
         .query(constructQuery(QUERIES.CREATE_USER, username, password))
         .then((res) => {
           let user = getUserResponse(res.rows[0]);
-          return response.status(HTTP_CODES.CREATED.code).json(user);
+          return { resCode: HTTP_CODES.CREATED.code, res: user };
         })
         .catch((err) => handleServerError(response, err));
     })
@@ -26,18 +26,21 @@ export function createUser(username, password, response) {
 }
 
 export function login(username, password, response) {
-  pool
+  // refactor this to work better currently crashes if user fails login
+  return pool
     .query(constructQuery(QUERIES.USER_LOGIN, username, password))
     .then((res) => {
       if (res.rows.length === 0) {
-        return response.status(HTTP_CODES.UNAUTHORIZED.code).json(makeError(ERROR_CODES.WRONG_USERNAME_PASSWORD));
+        console.log('Some error occured unauth');
+        return { resCode: HTTP_CODES.UNAUTHORIZED.code, res: makeError(ERROR_CODES.WRONG_USERNAME_PASSWORD) };
       }
       let user = getUserResponse(res.rows[0]);
       if (!checkHasPermission(user, RESOURCES.ACCOUNT, ACTIONS.LOGIN)) {
-        return response.status(HTTP_CODES.FORBIDDEN.code).json(makeError(ERROR_CODES.USER_ACCOUNT_LOCKED));
+        console.log('Some error occured forbidden');
+        return { resCode: HTTP_CODES.FORBIDDEN.code, res: makeError(ERROR_CODES.USER_ACCOUNT_LOCKED) };
       }
 
-      return response.status(HTTP_CODES.OK.code).json(user);
+      return { resCode: HTTP_CODES.OK.code, res: user }; //return response.status(HTTP_CODES.OK.code).json(user);
     })
     .catch((err) => handleServerError(response, err));
 }

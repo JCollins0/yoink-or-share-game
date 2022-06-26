@@ -3,7 +3,7 @@ export const router = Router();
 
 import { HTTP_CODES } from '../helpers/config.js';
 import { ERROR_CODES } from '../helpers/error_codes.js';
-import { createPermissionMiddleware } from '../helpers/middleware.js';
+import { createPermissionMiddleware, isAuthenticated } from '../helpers/middleware.js';
 import { ACTIONS, checkHasPermission, RESOURCES } from '../helpers/permissions.js';
 import { validateFields, makeError, handleServerError } from '../helpers/utils.js';
 import {
@@ -15,14 +15,22 @@ import {
   getAllRoles,
   getAllPermissionsForRole,
   addResourceActionsToRole,
+  getUserPermissions,
 } from '../services/permissions.js';
 
-router.post('/check', function (req, response) {
-  let user = req.body.user;
+router.get('/me', function (req, response) {
+  let user = req.session.user;
+  if (user) {
+    return getUserPermissions(user, response);
+  }
+  return response.status(HTTP_CODES.OK.code).json([]);
+});
+
+router.post('/check', isAuthenticated, function (req, response) {
+  let user = req.session.user;
   let resource = req.body.resource;
   let action = req.body.action;
 
-  // todo validate user token
   return checkHasPermission(user, resource, action, true)
     .then((res) => {
       if (res) {
@@ -84,7 +92,9 @@ router.get('/permissions', function (req, response) {
     return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
   }
 
-  return getAllPermissionsForRole(roleName, response);
+  return getAllPermissionsForRole(roleName, response).then((permissions) =>
+    response.status(HTTP_CODES.OK.code).json(permissions)
+  );
 });
 
 router.post('/permissions', function (req, response) {

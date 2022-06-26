@@ -5,7 +5,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of rowData">
+    <tr *ngFor="let item of _rowData">
       <td *ngFor="let col of colData">
         <ng-container *ngIf="col.type === DataColumnType.TEXT"
           ><p>{{ item?.[col.label] }}</p></ng-container

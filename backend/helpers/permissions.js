@@ -38,7 +38,7 @@ export function checkHasPermissionBulk(user, bulkResourceActionCheck = [], promi
         return false;
       }
       return bulkResourceActionCheck.every((check) =>
-        check.actions.every((action) =>
+        check.actions?.every((action) =>
           res.rows.some(
             (permission) => permission.resource_name === check.resource && permission.action_name === action
           )

@@ -7,13 +7,17 @@ import { fileURLToPath, URL } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { createChatNamespace } from './sockets/sockets.js';
+import { pool } from './helpers/db_helper.js';
+
+import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
 
 const localized = true;
 const IS_PROD = process.env.PORT ? true : false;
 if (!IS_PROD) {
   import('cors')
     .then((cors_module) => {
-      app.use(cors_module.default());
+      app.use(cors_module.default({ origin: true, credentials: true }));
       loadRoutes();
     })
     .catch((err) => console.log(err));
@@ -22,6 +26,20 @@ if (!IS_PROD) {
 }
 
 function loadRoutes() {
+  let pgSession = connectPgSimple(session);
+  let sessionOptions = {
+    store: new pgSession({
+      pool: pool, // Connection pool
+      createTableIfMissing: true,
+    }),
+    secret: process.env.COOKIE_SECRET || 'local-dev',
+    resave: false,
+    cookie: { maxAge: 5 * 60 * 1000 }, // 5 minutes
+    // Insert express-session options
+    saveUninitialized: true,
+  };
+  app.use(session(sessionOptions));
+
   app.use(express.json());
   // Serve only the static files form the dist directory
   app.use(express.static(fileURLToPath(new URL('../dist/yoink-or-share', import.meta.url))));

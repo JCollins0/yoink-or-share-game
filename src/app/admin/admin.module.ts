@@ -4,10 +4,18 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './store/reducers';
+import { ADMIN_FEATURE_KEY, reducers } from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { UserListEffects } from './store/effects/user-list.effects';
 
 @NgModule({
   declarations: [UserListComponent],
-  imports: [CommonModule, SharedModule, AdminRoutingModule, StoreModule.forFeature('admin', reducers)],
+  imports: [
+    CommonModule,
+    SharedModule,
+    AdminRoutingModule,
+    StoreModule.forFeature(ADMIN_FEATURE_KEY, reducers),
+    EffectsModule.forFeature([UserListEffects]),
+  ],
 })
 export class AdminModule {}

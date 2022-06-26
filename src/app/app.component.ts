@@ -1,10 +1,13 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { GetPermissions, IsAuthenticated } from './application/store/actions/app.actions';
 import { PersistenceService } from './shared/services/persistence.service';
 import { SpinnerService } from './shared/services/spinner.service';
+import { RootState } from './store';
 
 @Component({
   selector: 'app-root',
@@ -20,14 +23,23 @@ export class AppComponent implements OnDestroy {
   private readonly THEME_KEY = 'site-theme';
 
   routerSubscription: Subscription;
+  updatePermissionSubscription: Subscription;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private persistenceService: PersistenceService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private store: Store<RootState>
   ) {
+    this.updatePermissionSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe(() => {
+        this.store.dispatch(IsAuthenticated());
+        this.store.dispatch(GetPermissions());
+      });
+
     this.routerSubscription = this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -61,6 +73,7 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
+    this.updatePermissionSubscription.unsubscribe();
   }
 
   focusMain(event: any) {

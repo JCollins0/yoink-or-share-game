@@ -8,14 +8,10 @@ export interface SignUp {
   password: string;
 }
 
-export interface PartialUser {
+export interface User {
+  userName: string;
+  createdDate: string;
+  updatedDate: string;
   userId: number;
   secret_token: string;
-}
-
-export interface User extends PartialUser {
-  userName: string;
-  password: string;
-  createTs: string;
-  chgTs: string;
 }

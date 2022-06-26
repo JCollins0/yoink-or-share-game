@@ -23,7 +23,13 @@ export interface FormModelParameters {
 export type FormModel = Array<FormModelParameters>;
 
 export interface PermissionCheck {
-  user: User;
   resource: string;
   action: string;
 }
+
+export interface Permission {
+  resourceName: string;
+  actions: Array<string>;
+}
+
+export type PermissionsMatrix = Array<Permission>;

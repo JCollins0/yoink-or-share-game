@@ -13,13 +13,15 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { RootState } from 'src/app/store';
+import { AppService } from '../service/app.service';
+import { GetPermissions, IsAuthenticated } from '../store/actions/app.actions';
 import { selectIsAuthenticated } from '../store/reducers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private store: Store<RootState>, private router: Router) {}
+  constructor(private router: Router, private appService: AppService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -31,13 +33,13 @@ export class AuthGuard implements CanActivate, CanLoad {
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+    return this.isAuthenticated();
   }
 
   private isAuthenticated(): Observable<boolean> {
-    return this.store.select(selectIsAuthenticated).pipe(
-      tap((authenticated) => {
-        if (!authenticated) {
+    return this.appService.isAuthenticated().pipe(
+      tap((auth) => {
+        if (!auth) {
           this.router.navigate(['/login']);
         }
       })

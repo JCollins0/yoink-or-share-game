@@ -15,7 +15,15 @@ import { reducers, APPLICATION_FEATURE_KEY } from './store/reducers';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApplicationRoutingModule } from './application-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserAuthInjectorInterceptor } from './interceptors/user-auth-injector.interceptor';
+import { CookieInjectorInterceptor } from './interceptors/cookie-injector.interceptor';
+import { PermissionsService } from './service/permissions.service';
+
+let httpInterceptors = [
+  { provide: HTTP_INTERCEPTORS, useClass: UserAuthInjectorInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: CookieInjectorInterceptor, multi: true },
+];
 
 @NgModule({
   declarations: [
@@ -35,7 +43,7 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forFeature(APPLICATION_FEATURE_KEY, reducers),
     EffectsModule.forFeature([AppEffects]),
   ],
-  providers: [AppService],
+  providers: [AppService, PermissionsService, httpInterceptors],
   exports: [NavFooterComponent, NavHeaderComponent],
 })
 export class ApplicationModule {}

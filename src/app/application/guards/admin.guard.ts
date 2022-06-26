@@ -9,39 +9,36 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
-import { selectUser } from 'src/app/application/store/reducers';
-import { PermissionsService } from '../../shared/services/permissions.service';
+import { Observable, of } from 'rxjs';
+import { PermissionsService } from '../service/permissions.service';
 import { RootState } from 'src/app/store';
+import { hasPermission, selectPermissions } from '../store/reducers';
+import { GetPermissions } from '../store/actions/app.actions';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate, CanLoad {
-  constructor(private permissionService: PermissionsService, private store: Store<RootState>) {}
+  constructor(private store: Store<RootState>, private permissionsService: PermissionsService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.hasPermission();
+    return this.hasPermissionCheck();
   }
 
   canLoad(
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.hasPermission();
+    return this.hasPermissionCheck();
   }
 
-  private hasPermission(): Observable<boolean> | boolean {
-    return true;
-    return this.store.select(selectUser).pipe(
-      filter((user) => user != null),
-      switchMap((user) =>
-        this.permissionService.checkHasPermission({ user: user!, resource: 'ADMIN_PAGES', action: 'VIEW' })
-      )
-    );
+  private hasPermissionCheck(): Observable<boolean> | boolean {
+    return this.store
+      .select(hasPermission('ADMIN_PAGES', 'VIEW'))
+      .pipe(() => this.permissionsService.checkHasPermission({ resource: 'ADMIN_PAGES', action: 'VIEW' }));
   }
 }

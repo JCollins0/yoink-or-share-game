@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LogoutAction } from '../../store/actions/app.actions';
-import { selectIsAuthenticated, selectUser } from '../../store/reducers';
-import { PermissionsService } from 'src/app/shared/services/permissions.service';
+import { PermissionsService } from '../../service/permissions.service';
 import { RootState } from 'src/app/store';
+import { AppService } from '../../service/app.service';
+import { hasPermission, selectIsAuthenticated } from '../../store/reducers';
 @Component({
   selector: 'app-nav-header',
   templateUrl: './nav-header.component.html',
@@ -15,23 +16,13 @@ export class NavHeaderComponent implements OnDestroy {
   public navOpen = false;
   public authenticated$: Observable<boolean>;
   private ngUnsubscribe: Subject<any>;
-  public isAdmin$: Observable<boolean> | null = null;
+  public isAdmin$: Observable<boolean | null>;
   @Output() skipToMainContentClick = new EventEmitter();
 
-  constructor(private store: Store<RootState>, private permissionsService: PermissionsService) {
+  constructor(private store: Store<RootState>) {
     this.ngUnsubscribe = new Subject();
     this.authenticated$ = this.store.select(selectIsAuthenticated).pipe(takeUntil(this.ngUnsubscribe));
-    this.store
-      .select(selectUser)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        (user) =>
-          (this.isAdmin$ = permissionsService.checkHasPermission({
-            user: user!,
-            resource: 'ADMIN_PAGES',
-            action: 'VIEW',
-          }))
-      );
+    this.isAdmin$ = this.store.select(hasPermission('ADMIN_PAGES', 'VIEW'));
 
     this.authenticated$.subscribe((authenticated) => {
       if (authenticated) {

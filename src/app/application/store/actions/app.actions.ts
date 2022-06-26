@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Login, User, SignUp } from '../../../shared/models';
+import { Login, User, SignUp, PermissionCheck, PermissionsMatrix } from '../../../shared/models';
 import { CommonError } from '../../../shared/models';
 
 export const LoginAction = createAction('[USER] Login', props<{ credentials: Login }>());
@@ -17,3 +17,20 @@ export const SignUpFailure = createAction('[USER] SignUp Failure', props<{ error
 export const LogoutAction = createAction('[USER] Logout');
 
 export const LogoutSuccess = createAction('[USER] Logout Success');
+
+export const IsAuthenticated = createAction('[USER] Check Authenticated');
+export const IsAuthenticatedSuccess = createAction(
+  '[USER] Check Authenticated Sucess',
+  props<{ authenticated: boolean }>()
+);
+export const IsAuthenticatedFailure = createAction('[USER] Check Authenticated Failure');
+
+export const GetPermissions = createAction('[Permissions] Get Permissions');
+export const GetPermissionsSuccess = createAction(
+  '[Permissions] Get Permissions Success',
+  props<{ permissions: PermissionsMatrix }>()
+);
+export const GetPermissionsFailure = createAction(
+  '[Permissions] Get Permissions Failure',
+  props<{ error: CommonError }>()
+);

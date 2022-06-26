@@ -1,4 +1,5 @@
 export interface UserListDatatableRowData {
   userName: string;
-  createTs: string;
+  value: string;
+  createdDate: string;
 }

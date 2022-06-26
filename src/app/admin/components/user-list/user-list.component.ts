@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { DataColumnType, DatatableColData } from 'src/app/shared/models';
+import { RootState } from 'src/app/store';
+import { UserListDatatableRowData } from '../../models/table-models';
+import { LoadUserList } from '../../store/actions/user-list.actions';
+import { selectUsersList } from '../../store/reducers';
 
 @Component({
   selector: 'app-user-list',
@@ -8,9 +15,9 @@ import { DataColumnType, DatatableColData } from 'src/app/shared/models';
 })
 export class UserListComponent implements OnInit {
   sampleColData: Array<DatatableColData>;
-  sampleRowData: Array<any>;
+  userListData$: Observable<Array<UserListDatatableRowData>>;
 
-  constructor() {
+  constructor(private store: Store<RootState>) {
     this.sampleColData = [
       {
         type: DataColumnType.TEXT,
@@ -29,18 +36,19 @@ export class UserListComponent implements OnInit {
       },
     ];
 
-    this.sampleRowData = [
-      {
-        userName: 'testUser1',
-        value: 'Edit',
-        createdDate: '2022-06-20T05:00:00.000Z',
-      },
-      {
-        userName: 'testUser2',
-        value: 'Edit',
-        createdDate: '2022-06-20T05:00:00.000Z',
-      },
-    ];
+    this.store.dispatch(LoadUserList());
+
+    this.userListData$ = this.store.select(selectUsersList).pipe(
+      map((userList) =>
+        userList.map((user) => {
+          return {
+            userName: user.userName,
+            value: 'Edit',
+            createdDate: user.createdDate,
+          };
+        })
+      )
+    );
   }
 
   ngOnInit(): void {}

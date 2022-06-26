@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { of, pipe } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import {
+  GetPermissions,
+  GetPermissionsFailure,
+  GetPermissionsSuccess,
+  IsAuthenticated,
+  IsAuthenticatedSuccess,
+  IsAuthenticatedFailure,
   LoginAction,
   LoginFailure,
   LoginSuccess,
@@ -14,6 +20,7 @@ import {
 } from '../actions/app.actions';
 import { AppErrorService } from 'src/app/shared/services/app-error.service';
 import { AppService } from '../../service/app.service';
+import { PermissionsService } from '../../service/permissions.service';
 
 @Injectable()
 export class AppEffects {
@@ -21,7 +28,8 @@ export class AppEffects {
     private actions$: Actions,
     private appService: AppService,
     private router: Router,
-    private errorService: AppErrorService
+    private errorService: AppErrorService,
+    private permissionsService: PermissionsService
   ) {}
 
   login$ = createEffect(() => {
@@ -64,10 +72,34 @@ export class AppEffects {
   logout$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LogoutAction),
-      switchMap(() => of(LogoutSuccess())),
+      switchMap(() => this.appService.logout().pipe(map(() => LogoutSuccess()))),
       tap(() => {
         this.router.navigate(['/login']);
       })
     );
   });
+
+  permissions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GetPermissions),
+      switchMap(() =>
+        this.permissionsService.getPermissions().pipe(
+          map((res) => GetPermissionsSuccess({ permissions: res })),
+          catchError((err) => of(GetPermissionsFailure({ error: this.errorService.convertError(err) })))
+        )
+      )
+    )
+  );
+
+  authenticated$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(IsAuthenticated),
+      switchMap(() =>
+        this.appService.isAuthenticated().pipe(
+          map((res) => IsAuthenticatedSuccess({ authenticated: res })),
+          catchError((err) => of(IsAuthenticatedFailure()))
+        )
+      )
+    )
+  );
 }
