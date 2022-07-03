@@ -1,7 +1,6 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { INJECT_USER_SECRET_TOKEN } from 'src/app/shared/constants/http-context';
 import { User } from 'src/app/shared/models';
 import { BaseService } from 'src/app/shared/services/base.service';
 
@@ -14,8 +13,6 @@ export class AdminService extends BaseService {
   }
 
   searchUsers(): Observable<Array<User>> {
-    return this.http.get<Array<User>>(this.url_prefix + '/api/user/all', {
-      context: new HttpContext().set(INJECT_USER_SECRET_TOKEN, true),
-    });
+    return this.http.get<Array<User>>(this.url_prefix + '/api/user/all');
   }
 }

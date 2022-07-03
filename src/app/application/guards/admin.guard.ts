@@ -4,6 +4,7 @@ import {
   CanActivate,
   CanLoad,
   Route,
+  Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree,
@@ -20,7 +21,11 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate, CanLoad {
-  constructor(private store: Store<RootState>, private permissionsService: PermissionsService) {}
+  constructor(
+    private store: Store<RootState>,
+    private permissionsService: PermissionsService,
+    private router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -39,6 +44,13 @@ export class AdminGuard implements CanActivate, CanLoad {
   private hasPermissionCheck(): Observable<boolean> | boolean {
     return this.store
       .select(hasPermission('ADMIN_PAGES', 'VIEW'))
-      .pipe(() => this.permissionsService.checkHasPermission({ resource: 'ADMIN_PAGES', action: 'VIEW' }));
+      .pipe(() => this.permissionsService.checkHasPermission({ resource: 'ADMIN_PAGES', action: 'VIEW' }))
+      .pipe(
+        tap((hasPermission) => {
+          if (!hasPermission) {
+            this.router.navigate(['/']);
+          }
+        })
+      );
   }
 }

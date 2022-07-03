@@ -12,3 +12,7 @@ export function handleServerError(response, err) {
   console.log(err);
   return response.status(HTTP_CODES.SERVER_ERROR.code).json(makeError(HTTP_CODES.SERVER_ERROR.code));
 }
+
+export function createServiceResponse(responseCode, response) {
+  return { resCode: responseCode, res: response };
+}

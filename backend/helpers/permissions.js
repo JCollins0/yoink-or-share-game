@@ -1,6 +1,5 @@
 import { pool, constructQuery } from './db_helper.js';
 import { QUERIES } from './config.js';
-import { resolve } from 'path';
 
 export const ACTIONS = {
   LOGIN: 'LOGIN',
@@ -13,18 +12,30 @@ export const RESOURCES = {
   ACCOUNT: 'ACCOUNT',
   ROLE: 'ROLE',
   USER_LIST: 'USER_LIST',
+  USERS: 'USERS',
 };
 
+/**
+ * @param {User} user
+ *  the user trying to test
+ * @param {string} resource
+ *  the resource
+ * @param {string} action
+ *  the action
+ * @param {boolean} promise
+ * @returns {boolean | Promise<boolean>} true if user can perform action on resource, false if not
+ * if promise argument is true, then returns a boolean promise
+ */
 export function checkHasPermission(user, resource = '-', action = '-', promise = false) {
   return checkHasPermissionBulk(user, [{ resource: resource, actions: [action] }], promise);
 }
 
 /**
- * @param user
+ * @param {User} user
  *  the user object to check
- * @param bulkResourceActionCheck
+ * @param {Array<ResourceActionCheck>} bulkResourceActionCheck
  *  Data should come in format [{resource: "SOME_RESOURCE", action: ["SOME_ACTION",...]}, ...]
- * @returns true if user has access to all permissions, false if any permissions are not present
+ * @returns {boolean | Promise<boolean>} true if user has access to all permissions, false if any permissions are not present
  */
 export function checkHasPermissionBulk(user, bulkResourceActionCheck = [], promise = false) {
   if (!user) {
@@ -45,8 +56,5 @@ export function checkHasPermissionBulk(user, bulkResourceActionCheck = [], promi
         )
       );
     })
-    .catch((err) => {
-      console.log('Some error occured when checking permissions', err);
-      return false;
-    });
+    .catch(() => false);
 }

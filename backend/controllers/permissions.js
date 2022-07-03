@@ -21,7 +21,9 @@ import {
 router.get('/me', function (req, response) {
   let user = req.session.user;
   if (user) {
-    return getUserPermissions(user, response);
+    return getUserPermissions(user)
+      .then((getUserPermsResponse) => response.status(getUserPermsResponse.resCode).json(getUserPermsResponse.res))
+      .catch((err) => handleServerError(response, err));
   }
   return response.status(HTTP_CODES.OK.code).json([]);
 });
@@ -31,7 +33,7 @@ router.post('/check', isAuthenticated, function (req, response) {
   let resource = req.body.resource;
   let action = req.body.action;
 
-  return checkHasPermission(user, resource, action, true)
+  checkHasPermission(user, resource, action, true)
     .then((res) => {
       if (res) {
         return response.status(HTTP_CODES.OK.code).json(true);
@@ -41,10 +43,13 @@ router.post('/check', isAuthenticated, function (req, response) {
     .catch((err) => handleServerError(response, err));
 });
 
+// This middleware for checking permission will apply to all routes below this line
 router.use(createPermissionMiddleware([{ resource: RESOURCES.ROLE, actions: [ACTIONS.VIEW, ACTIONS.CREATE] }]));
 
 router.get('/roles', function (req, response) {
-  return getAllRoles(response);
+  getAllRoles()
+    .then((getRolesResponse) => response.status(getRolesResponse.resCode).json(getRolesResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
 router.post('/role/new', function (req, response) {
@@ -54,11 +59,15 @@ router.post('/role/new', function (req, response) {
     return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
   }
 
-  return createRole(roleName, response);
+  createRole(roleName)
+    .then((createRoleResponse) => response.status(createRoleResponse.resCode).json(createRoleResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
 router.get('/actions', function (req, response) {
-  return getAllActions(response);
+  getAllActions()
+    .then((getActionsResponse) => response.status(getActionsResponse.resCode).json(getActionsResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
 router.post('/action/new', function (req, response) {
@@ -68,11 +77,15 @@ router.post('/action/new', function (req, response) {
     return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
   }
 
-  return createAction(actionName, response);
+  createAction(actionName)
+    .then((createActionResponse) => response.status(createActionResponse.resCode).json(createActionResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
 router.get('/resources', function (req, response) {
-  return getAllResources(response);
+  getAllResources()
+    .then((getResourcesResponse) => response.status(getResourcesResponse.resCode).json(getResourcesResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
 router.post('/resource/new', function (req, response) {
@@ -82,7 +95,9 @@ router.post('/resource/new', function (req, response) {
     return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
   }
 
-  return createResource(resourceName, response);
+  createResource(resourceName)
+    .then((createResourceResponse) => response.status(createResourceResponse.resCode).json(createResourceResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
 router.get('/permissions', function (req, response) {
@@ -92,12 +107,12 @@ router.get('/permissions', function (req, response) {
     return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
   }
 
-  return getAllPermissionsForRole(roleName, response).then((permissions) =>
-    response.status(HTTP_CODES.OK.code).json(permissions)
-  );
+  getAllPermissionsForRole(roleName)
+    .then((permissionsResponse) => response.status(permissionsResponse.resCode).json(permissionsResponse.res))
+    .catch((err) => handleServerError(response, err));
 });
 
-router.post('/permissions', function (req, response) {
+router.patch('/permissions', function (req, response) {
   let roleName = req.body.role;
   let resourceActions = req.body.resourceActions;
 
@@ -105,7 +120,11 @@ router.post('/permissions', function (req, response) {
     return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
   }
 
-  return addResourceActionsToRole(roleName, resourceActions, response);
+  addResourceActionsToRole(roleName, resourceActions)
+    .then((addResourceActionsResponse) =>
+      response.status(addResourceActionsResponse.resCode).json(addResourceActionsResponse.res)
+    )
+    .catch((err) => handleServerError(response, err));
 });
 
 export default router;

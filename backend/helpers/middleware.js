@@ -7,7 +7,7 @@ export function createPermissionMiddleware(bulkCheck = []) {
   return function permissionMiddleware(req, response, next) {
     let user = req.session.user;
     if (!validateFields(user)) {
-      return response.status(HTTP_CODES.BAD_REQUEST.code).json(makeError(ERROR_CODES.REQUIRED_FIELDS_NULL));
+      return response.status(HTTP_CODES.FORBIDDEN.code).json(makeError(ERROR_CODES.USER_DOES_NOT_HAVE_ACCESS));
     }
     if (checkHasPermissionBulk(user, bulkCheck)) {
       return next();

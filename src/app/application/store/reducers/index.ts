@@ -23,9 +23,6 @@ const selectStateUser = createSelector(selectFeatureApplication, (state: Applica
 export const selectUser = createSelector(selectStateUser, getUser);
 export const selectOwnerId = createSelector(selectStateUser, getOwnerId);
 export const selectIsAuthenticated = createSelector(selectStateUser, isAuthenticated);
-// export const selectIsAuthenticatedNonNull = createSelector(selectIsAuthenticated, (auth) =>
-//   auth === null ? false : auth
-// );
 export const selectLoginError = createSelector(selectStateUser, getLoginError);
 
 const selectStatePermissions = createSelector(selectFeatureApplication, (state: ApplicationState) => state.permissions);

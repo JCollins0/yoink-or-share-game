@@ -1,5 +1,7 @@
+<h1 i18n="@@user-list-header">User List</h1>
+
 <app-datatable [colData]="sampleColData" [rowData]="userListData$ | async">
   <ng-template appTableTemplate id="buttons" let-row="row">
-    <app-button>{{ row?.value }}</app-button>
+    <app-button [routerLink]="row.value.route">{{ row.value.text }}</app-button>
   </ng-template>
 </app-datatable>

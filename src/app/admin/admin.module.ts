@@ -7,9 +7,11 @@ import { StoreModule } from '@ngrx/store';
 import { ADMIN_FEATURE_KEY, reducers } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { UserListEffects } from './store/effects/user-list.effects';
+import { EditUserComponent } from './components/user-list/edit-user/edit-user.component';
+import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 
 @NgModule({
-  declarations: [UserListComponent],
+  declarations: [UserListComponent, EditUserComponent, AdminHomeComponent],
   imports: [
     CommonModule,
     SharedModule,

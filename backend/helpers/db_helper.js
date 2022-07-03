@@ -18,22 +18,6 @@ export function constructQuery(query, ...values) {
   };
 }
 
-function verifyUserToken(token, userId, success, failure) {
-  pool
-    .query(constructQuery(QUERIES.VERIFY_USER_TOKEN, userId, token))
-    .then((res) => {
-      if (res.rows.length > 0) {
-        return success();
-      }
-      return failure();
-    })
-    .catch((err) =>
-      setImmediate(() => {
-        throw err;
-      })
-    );
-}
-
 export function getUserResponse(user) {
   return {
     userId: user.user_sid,
@@ -72,7 +56,6 @@ export function getPermissionResponse(permission) {
 
 export default {
   constructQuery,
-  verifyUserToken,
   getUserResponse,
   pool,
 };

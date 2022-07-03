@@ -30,6 +30,11 @@ export class UserListComponent implements OnInit {
         label: 'createdDate',
       },
       {
+        type: DataColumnType.DATE,
+        title: 'Updated',
+        label: 'updatedDate',
+      },
+      {
         type: DataColumnType.TEMPLATE,
         title: 'Buttons',
         label: 'buttons',
@@ -43,8 +48,12 @@ export class UserListComponent implements OnInit {
         userList.map((user) => {
           return {
             userName: user.userName,
-            value: 'Edit',
+            value: {
+              text: 'Edit',
+              route: `./${user.userId}`,
+            },
             createdDate: user.createdDate,
+            updatedDate: user.updatedDate,
           };
         })
       )

@@ -5,6 +5,7 @@ import {
   LogoutSuccess,
   IsAuthenticatedSuccess,
   IsAuthenticatedFailure,
+  SignUpSuccess,
 } from '../actions/app.actions';
 import { CommonError } from 'src/app/shared/models';
 import { User } from 'src/app/shared/models';
@@ -25,6 +26,7 @@ export const userReducer = createReducer(
   on(LoginSuccess, (state: UserState, { user }) => ({ isAuthenticated: true, user: user, error: null })),
   on(LoginFailure, (state: UserState, { error }) => ({ isAuthenticated: false, user: null, error: error })),
   on(LogoutSuccess, (state: UserState) => ({ isAuthenticated: false, user: null, error: null })),
+  on(SignUpSuccess, (state, action) => ({ user: action.user, error: null, isAuthenticated: true })),
   on(IsAuthenticatedSuccess, (state: UserState, action) => ({ ...state, isAuthenticated: action.authenticated })),
   on(IsAuthenticatedFailure, (state: UserState) => ({ ...state, isAuthenticated: false }))
 );

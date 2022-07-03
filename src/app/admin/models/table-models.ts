@@ -1,5 +1,8 @@
 export interface UserListDatatableRowData {
   userName: string;
-  value: string;
+  value: {
+    text: string;
+    route: string;
+  };
   createdDate: string;
 }
